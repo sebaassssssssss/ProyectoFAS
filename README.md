@@ -19,4 +19,4 @@ CONSIDERACIONES PARA TRABAJAR CON FLUTTER FLOW
 ![](imagenes/i1.jpg)
 
 \*\*ARCHIVO CORRIENDO EN LA PREVISUALIZACIÓN\*\*   
-<img src="imagenes/i2.jpg">
+

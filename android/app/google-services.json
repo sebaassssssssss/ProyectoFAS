@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "765748580511",
+    "project_id": "simpli-citas-c6t1k0",
+    "storage_bucket": "simpli-citas-c6t1k0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:765748580511:android:31dd1652c86fae7144d2aa",
+        "android_client_info": {
+          "package_name": "com.mycompany.simplicitas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVoVFWFahZX9EE-Ize_8TicwfCp8xxCrc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

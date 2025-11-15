@@ -1,4 +1,5 @@
 import '/backend/backend.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_radio_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -7,7 +8,6 @@ import '/flutter_flow/form_field_controller.dart';
 import '/index.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'inicio_de_sesion_model.dart';
 export 'inicio_de_sesion_model.dart';
@@ -20,7 +20,7 @@ export 'inicio_de_sesion_model.dart';
 class InicioDeSesionWidget extends StatefulWidget {
   const InicioDeSesionWidget({super.key});
 
-  static String routeName = 'InicioDeSesion';
+  static String routeName = 'inicioDeSesion';
   static String routePath = '/inicioDeSesion';
 
   @override
@@ -37,24 +37,13 @@ class _InicioDeSesionWidgetState extends State<InicioDeSesionWidget> {
     super.initState();
     _model = createModel(context, () => InicioDeSesionModel());
 
-    // On page load action.
-    SchedulerBinding.instance.addPostFrameCallback((_) async {
-      context.pushNamed(
-        HomeWidget.routeName,
-        extra: <String, dynamic>{
-          kTransitionInfoKey: TransitionInfo(
-            hasTransition: true,
-            transitionType: PageTransitionType.rightToLeft,
-          ),
-        },
-      );
-    });
-
     _model.textField1TextController ??= TextEditingController();
     _model.textField1FocusNode ??= FocusNode();
 
     _model.textField2TextController ??= TextEditingController();
     _model.textField2FocusNode ??= FocusNode();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
 
   @override
@@ -74,6 +63,27 @@ class _InicioDeSesionWidgetState extends State<InicioDeSesionWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: Color(0xFFF6F6F6),
+        appBar: AppBar(
+          backgroundColor: FlutterFlowTheme.of(context).primary,
+          automaticallyImplyLeading: false,
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.chevron_left_sharp,
+              color: Colors.white,
+              size: 30.0,
+            ),
+            onPressed: () async {
+              context.pop();
+            },
+          ),
+          actions: [],
+          centerTitle: true,
+          elevation: 2.0,
+        ),
         body: SafeArea(
           top: true,
           child: Align(
@@ -94,7 +104,7 @@ class _InicioDeSesionWidgetState extends State<InicioDeSesionWidget> {
                       children: [
                         Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 32.0),
+                              0.0, 12.0, 0.0, 32.0),
                           child: Container(
                             width: 120.0,
                             height: 120.0,
@@ -239,13 +249,13 @@ class _InicioDeSesionWidgetState extends State<InicioDeSesionWidget> {
                                                 onChanged: (val) async {
                                                   safeSetState(() {});
                                                   _model.selectedRol =
-                                                      '[RadioButton.Selected Value]';
+                                                      _model.radioButtonValue!;
                                                   safeSetState(() {});
                                                 },
                                                 controller: _model
                                                         .radioButtonValueController ??=
                                                     FormFieldController<String>(
-                                                        'Psicólogo'),
+                                                        null),
                                                 optionHeight: 32.0,
                                                 textStyle:
                                                     FlutterFlowTheme.of(context)
@@ -494,26 +504,13 @@ class _InicioDeSesionWidgetState extends State<InicioDeSesionWidget> {
                             child: FFButtonWidget(
                               onPressed: () async {
                                 if (_model.selectedRol == 'Paciente') {
-                                  _model.revUserPass =
+                                  _model.verifyUser =
                                       await queryPacientesRecordOnce(
-                                    queryBuilder: (pacientesRecord) =>
-                                        pacientesRecord
-                                            .where(
-                                              'Nombre_Usuario',
-                                              isEqualTo: _model
-                                                  .textField1TextController
-                                                  .text,
-                                            )
-                                            .where(
-                                              'Password',
-                                              isEqualTo: _model
-                                                  .textField2TextController
-                                                  .text,
-                                            ),
                                     singleRecord: true,
                                   ).then((s) => s.firstOrNull);
-                                  if (_model.revUserPass != null) {
-                                    context.pushNamed(HomeWidget.routeName);
+                                  if (_model.verifyUser != null) {
+                                    context.pushNamed(
+                                        HomePacienteWidget.routeName);
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -534,24 +531,11 @@ class _InicioDeSesionWidgetState extends State<InicioDeSesionWidget> {
                                 } else {
                                   _model.verifyUserPass =
                                       await queryPsicologosRecordOnce(
-                                    queryBuilder: (psicologosRecord) =>
-                                        psicologosRecord
-                                            .where(
-                                              'Nombre_Usuario',
-                                              isEqualTo: _model
-                                                  .textField1TextController
-                                                  .text,
-                                            )
-                                            .where(
-                                              'Password',
-                                              isEqualTo: _model
-                                                  .textField2TextController
-                                                  .text,
-                                            ),
                                     singleRecord: true,
                                   ).then((s) => s.firstOrNull);
                                   if (_model.verifyUserPass != null) {
-                                    context.pushNamed(HomeWidget.routeName);
+                                    context.pushNamed(
+                                        HomePsicologoWidget.routeName);
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

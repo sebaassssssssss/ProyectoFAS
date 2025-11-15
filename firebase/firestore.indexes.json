@@ -1,3 +1,18 @@
 {
-  "indexes": []
+  "indexes": [
+    {
+      "collectionGroup": "Citas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "psicologo_uid",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHora",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ]
 }

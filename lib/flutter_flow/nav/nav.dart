@@ -76,28 +76,90 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? HomeWidget() : InicioDeSesionWidget(),
+          appStateNotifier.loggedIn ? InicioWidget() : SplashPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? HomeWidget() : InicioDeSesionWidget(),
-        ),
-        FFRoute(
-          name: HomeWidget.routeName,
-          path: HomeWidget.routePath,
-          builder: (context, params) => HomeWidget(),
-        ),
-        FFRoute(
-          name: RegistroWidget.routeName,
-          path: RegistroWidget.routePath,
-          builder: (context, params) => RegistroWidget(),
+              appStateNotifier.loggedIn ? InicioWidget() : SplashPageWidget(),
         ),
         FFRoute(
           name: InicioDeSesionWidget.routeName,
           path: InicioDeSesionWidget.routePath,
           builder: (context, params) => InicioDeSesionWidget(),
+        ),
+        FFRoute(
+          name: InicioWidget.routeName,
+          path: InicioWidget.routePath,
+          builder: (context, params) => InicioWidget(),
+        ),
+        FFRoute(
+          name: RegistroPsicologoWidget.routeName,
+          path: RegistroPsicologoWidget.routePath,
+          builder: (context, params) => RegistroPsicologoWidget(),
+        ),
+        FFRoute(
+          name: HomePsicologoWidget.routeName,
+          path: HomePsicologoWidget.routePath,
+          builder: (context, params) => HomePsicologoWidget(),
+        ),
+        FFRoute(
+          name: AgendaCompletaPsicologoWidget.routeName,
+          path: AgendaCompletaPsicologoWidget.routePath,
+          builder: (context, params) => AgendaCompletaPsicologoWidget(),
+        ),
+        FFRoute(
+          name: ListaPacientesPsicologoWidget.routeName,
+          path: ListaPacientesPsicologoWidget.routePath,
+          builder: (context, params) => ListaPacientesPsicologoWidget(),
+        ),
+        FFRoute(
+          name: EditarPacienteWidget.routeName,
+          path: EditarPacienteWidget.routePath,
+          builder: (context, params) => EditarPacienteWidget(),
+        ),
+        FFRoute(
+          name: EliminarPacienteWidget.routeName,
+          path: EliminarPacienteWidget.routePath,
+          builder: (context, params) => EliminarPacienteWidget(),
+        ),
+        FFRoute(
+          name: LoginUsuarioWidget.routeName,
+          path: LoginUsuarioWidget.routePath,
+          builder: (context, params) => LoginUsuarioWidget(),
+        ),
+        FFRoute(
+          name: RegistroUsuarioWidget.routeName,
+          path: RegistroUsuarioWidget.routePath,
+          builder: (context, params) => RegistroUsuarioWidget(),
+        ),
+        FFRoute(
+          name: SplashPageWidget.routeName,
+          path: SplashPageWidget.routePath,
+          builder: (context, params) => SplashPageWidget(),
+        ),
+        FFRoute(
+          name: CrearNuevoPacienteWidget.routeName,
+          path: CrearNuevoPacienteWidget.routePath,
+          builder: (context, params) => CrearNuevoPacienteWidget(),
+        ),
+        FFRoute(
+          name: HomePacienteWidget.routeName,
+          path: HomePacienteWidget.routePath,
+          builder: (context, params) => HomePacienteWidget(),
+        ),
+        FFRoute(
+          name: VerPerfilPacienteWidget.routeName,
+          path: VerPerfilPacienteWidget.routePath,
+          builder: (context, params) => VerPerfilPacienteWidget(
+            pacienteRef: params.getParam(
+              'pacienteRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Pacientes'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -268,7 +330,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
-            return '/inicioDeSesion';
+            return '/splashPage';
           }
           return null;
         },

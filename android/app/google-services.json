@@ -12,7 +12,20 @@
           "package_name": "com.mycompany.simplicitas"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "765748580511-gt0vc7jpuqju9u1idled8keli03kgj4q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.simplicitas",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "765748580511-sf8on517erbhte4s6h5r4pllu0r8v2op.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCVoVFWFahZX9EE-Ize_8TicwfCp8xxCrc"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "765748580511-sf8on517erbhte4s6h5r4pllu0r8v2op.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "765748580511-6aktoigk8cdppj5p7m1l06qgrtv2umga.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.simplicitas"
+              }
+            }
+          ]
         }
       }
     }

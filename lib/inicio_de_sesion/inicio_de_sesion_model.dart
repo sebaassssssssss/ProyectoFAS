@@ -29,7 +29,7 @@ class InicioDeSesionModel extends FlutterFlowModel<InicioDeSesionWidget> {
   late bool textField2Visibility;
   String? Function(BuildContext, String?)? textField2TextControllerValidator;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  PacientesRecord? revUserPass;
+  PacientesRecord? verifyUser;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   PsicologosRecord? verifyUserPass;
 

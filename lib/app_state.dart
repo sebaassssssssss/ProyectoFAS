@@ -31,4 +31,10 @@ class FFAppState extends ChangeNotifier {
   set rolseleccionado(String value) {
     _rolseleccionado = value;
   }
+
+  String _urlTemporalIdentificacion = '';
+  String get urlTemporalIdentificacion => _urlTemporalIdentificacion;
+  set urlTemporalIdentificacion(String value) {
+    _urlTemporalIdentificacion = value;
+  }
 }

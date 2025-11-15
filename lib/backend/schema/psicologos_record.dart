@@ -15,31 +15,81 @@ class PsicologosRecord extends FirestoreRecord {
     _initializeFields();
   }
 
-  // "Expediente" field.
-  int? _expediente;
-  int get expediente => _expediente ?? 0;
-  bool hasExpediente() => _expediente != null;
+  // "nombre" field.
+  String? _nombre;
+  String get nombre => _nombre ?? '';
+  bool hasNombre() => _nombre != null;
 
-  // "Nombre_Usuario" field.
-  String? _nombreUsuario;
-  String get nombreUsuario => _nombreUsuario ?? '';
-  bool hasNombreUsuario() => _nombreUsuario != null;
+  // "apellidos" field.
+  String? _apellidos;
+  String get apellidos => _apellidos ?? '';
+  bool hasApellidos() => _apellidos != null;
 
-  // "Password" field.
-  String? _password;
-  String get password => _password ?? '';
-  bool hasPassword() => _password != null;
+  // "curp" field.
+  String? _curp;
+  String get curp => _curp ?? '';
+  bool hasCurp() => _curp != null;
 
-  // "Rol" field.
-  String? _rol;
-  String get rol => _rol ?? '';
-  bool hasRol() => _rol != null;
+  // "telefono" field.
+  String? _telefono;
+  String get telefono => _telefono ?? '';
+  bool hasTelefono() => _telefono != null;
+
+  // "direccionConsultorio" field.
+  String? _direccionConsultorio;
+  String get direccionConsultorio => _direccionConsultorio ?? '';
+  bool hasDireccionConsultorio() => _direccionConsultorio != null;
+
+  // "especialidad" field.
+  String? _especialidad;
+  String get especialidad => _especialidad ?? '';
+  bool hasEspecialidad() => _especialidad != null;
+
+  // "experienciaProfesional" field.
+  String? _experienciaProfesional;
+  String get experienciaProfesional => _experienciaProfesional ?? '';
+  bool hasExperienciaProfesional() => _experienciaProfesional != null;
+
+  // "cedulaProfesional" field.
+  String? _cedulaProfesional;
+  String get cedulaProfesional => _cedulaProfesional ?? '';
+  bool hasCedulaProfesional() => _cedulaProfesional != null;
+
+  // "user_ref" field.
+  DocumentReference? _userRef;
+  DocumentReference? get userRef => _userRef;
+  bool hasUserRef() => _userRef != null;
+
+  // "documentoIdentificacion" field.
+  String? _documentoIdentificacion;
+  String get documentoIdentificacion => _documentoIdentificacion ?? '';
+  bool hasDocumentoIdentificacion() => _documentoIdentificacion != null;
+
+  // "estatusVerificacionPerfil" field.
+  String? _estatusVerificacionPerfil;
+  String get estatusVerificacionPerfil => _estatusVerificacionPerfil ?? '';
+  bool hasEstatusVerificacionPerfil() => _estatusVerificacionPerfil != null;
+
+  // "idPsicologo" field.
+  int? _idPsicologo;
+  int get idPsicologo => _idPsicologo ?? 0;
+  bool hasIdPsicologo() => _idPsicologo != null;
 
   void _initializeFields() {
-    _expediente = castToType<int>(snapshotData['Expediente']);
-    _nombreUsuario = snapshotData['Nombre_Usuario'] as String?;
-    _password = snapshotData['Password'] as String?;
-    _rol = snapshotData['Rol'] as String?;
+    _nombre = snapshotData['nombre'] as String?;
+    _apellidos = snapshotData['apellidos'] as String?;
+    _curp = snapshotData['curp'] as String?;
+    _telefono = snapshotData['telefono'] as String?;
+    _direccionConsultorio = snapshotData['direccionConsultorio'] as String?;
+    _especialidad = snapshotData['especialidad'] as String?;
+    _experienciaProfesional = snapshotData['experienciaProfesional'] as String?;
+    _cedulaProfesional = snapshotData['cedulaProfesional'] as String?;
+    _userRef = snapshotData['user_ref'] as DocumentReference?;
+    _documentoIdentificacion =
+        snapshotData['documentoIdentificacion'] as String?;
+    _estatusVerificacionPerfil =
+        snapshotData['estatusVerificacionPerfil'] as String?;
+    _idPsicologo = castToType<int>(snapshotData['idPsicologo']);
   }
 
   static CollectionReference get collection =>
@@ -77,17 +127,33 @@ class PsicologosRecord extends FirestoreRecord {
 }
 
 Map<String, dynamic> createPsicologosRecordData({
-  int? expediente,
-  String? nombreUsuario,
-  String? password,
-  String? rol,
+  String? nombre,
+  String? apellidos,
+  String? curp,
+  String? telefono,
+  String? direccionConsultorio,
+  String? especialidad,
+  String? experienciaProfesional,
+  String? cedulaProfesional,
+  DocumentReference? userRef,
+  String? documentoIdentificacion,
+  String? estatusVerificacionPerfil,
+  int? idPsicologo,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
-      'Expediente': expediente,
-      'Nombre_Usuario': nombreUsuario,
-      'Password': password,
-      'Rol': rol,
+      'nombre': nombre,
+      'apellidos': apellidos,
+      'curp': curp,
+      'telefono': telefono,
+      'direccionConsultorio': direccionConsultorio,
+      'especialidad': especialidad,
+      'experienciaProfesional': experienciaProfesional,
+      'cedulaProfesional': cedulaProfesional,
+      'user_ref': userRef,
+      'documentoIdentificacion': documentoIdentificacion,
+      'estatusVerificacionPerfil': estatusVerificacionPerfil,
+      'idPsicologo': idPsicologo,
     }.withoutNulls,
   );
 
@@ -99,15 +165,35 @@ class PsicologosRecordDocumentEquality implements Equality<PsicologosRecord> {
 
   @override
   bool equals(PsicologosRecord? e1, PsicologosRecord? e2) {
-    return e1?.expediente == e2?.expediente &&
-        e1?.nombreUsuario == e2?.nombreUsuario &&
-        e1?.password == e2?.password &&
-        e1?.rol == e2?.rol;
+    return e1?.nombre == e2?.nombre &&
+        e1?.apellidos == e2?.apellidos &&
+        e1?.curp == e2?.curp &&
+        e1?.telefono == e2?.telefono &&
+        e1?.direccionConsultorio == e2?.direccionConsultorio &&
+        e1?.especialidad == e2?.especialidad &&
+        e1?.experienciaProfesional == e2?.experienciaProfesional &&
+        e1?.cedulaProfesional == e2?.cedulaProfesional &&
+        e1?.userRef == e2?.userRef &&
+        e1?.documentoIdentificacion == e2?.documentoIdentificacion &&
+        e1?.estatusVerificacionPerfil == e2?.estatusVerificacionPerfil &&
+        e1?.idPsicologo == e2?.idPsicologo;
   }
 
   @override
-  int hash(PsicologosRecord? e) => const ListEquality()
-      .hash([e?.expediente, e?.nombreUsuario, e?.password, e?.rol]);
+  int hash(PsicologosRecord? e) => const ListEquality().hash([
+        e?.nombre,
+        e?.apellidos,
+        e?.curp,
+        e?.telefono,
+        e?.direccionConsultorio,
+        e?.especialidad,
+        e?.experienciaProfesional,
+        e?.cedulaProfesional,
+        e?.userRef,
+        e?.documentoIdentificacion,
+        e?.estatusVerificacionPerfil,
+        e?.idPsicologo
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is PsicologosRecord;

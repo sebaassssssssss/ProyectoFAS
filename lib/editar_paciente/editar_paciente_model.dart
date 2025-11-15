@@ -1,11 +1,11 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import 'registro_widget.dart' show RegistroWidget;
+import '/flutter_flow/form_field_controller.dart';
+import 'editar_paciente_widget.dart' show EditarPacienteWidget;
 import 'package:flutter/material.dart';
 
-class RegistroModel extends FlutterFlowModel<RegistroWidget> {
+class EditarPacienteModel extends FlutterFlowModel<EditarPacienteWidget> {
   ///  State fields for stateful widgets in this page.
 
-  final formKey = GlobalKey<FormState>();
   // State field(s) for TextField widget.
   FocusNode? textFieldFocusNode1;
   TextEditingController? textController1;
@@ -22,6 +22,9 @@ class RegistroModel extends FlutterFlowModel<RegistroWidget> {
   FocusNode? textFieldFocusNode4;
   TextEditingController? textController4;
   String? Function(BuildContext, String?)? textController4Validator;
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
 
   @override
   void initState(BuildContext context) {}

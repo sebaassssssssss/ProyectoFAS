@@ -15,31 +15,130 @@ class PacientesRecord extends FirestoreRecord {
     _initializeFields();
   }
 
-  // "Expediente" field.
-  int? _expediente;
-  int get expediente => _expediente ?? 0;
-  bool hasExpediente() => _expediente != null;
+  // "ExpPsicologo" field.
+  DocumentReference? _expPsicologo;
+  DocumentReference? get expPsicologo => _expPsicologo;
+  bool hasExpPsicologo() => _expPsicologo != null;
 
-  // "Nombre_Usuario" field.
-  String? _nombreUsuario;
-  String get nombreUsuario => _nombreUsuario ?? '';
-  bool hasNombreUsuario() => _nombreUsuario != null;
+  // "user_ref" field.
+  DocumentReference? _userRef;
+  DocumentReference? get userRef => _userRef;
+  bool hasUserRef() => _userRef != null;
 
-  // "Password" field.
-  String? _password;
-  String get password => _password ?? '';
-  bool hasPassword() => _password != null;
+  // "email_invitado" field.
+  String? _emailInvitado;
+  String get emailInvitado => _emailInvitado ?? '';
+  bool hasEmailInvitado() => _emailInvitado != null;
 
-  // "Rol" field.
+  // "user_uid_link" field.
+  String? _userUidLink;
+  String get userUidLink => _userUidLink ?? '';
+  bool hasUserUidLink() => _userUidLink != null;
+
+  // "psicologo_uid" field.
+  DocumentReference? _psicologoUid;
+  DocumentReference? get psicologoUid => _psicologoUid;
+  bool hasPsicologoUid() => _psicologoUid != null;
+
+  // "foto_url" field.
+  String? _fotoUrl;
+  String get fotoUrl => _fotoUrl ?? '';
+  bool hasFotoUrl() => _fotoUrl != null;
+
+  // "fecha_registro" field.
+  DateTime? _fechaRegistro;
+  DateTime? get fechaRegistro => _fechaRegistro;
+  bool hasFechaRegistro() => _fechaRegistro != null;
+
+  // "rol" field.
   String? _rol;
   String get rol => _rol ?? '';
   bool hasRol() => _rol != null;
 
+  // "expedientePaciente" field.
+  String? _expedientePaciente;
+  String get expedientePaciente => _expedientePaciente ?? '';
+  bool hasExpedientePaciente() => _expedientePaciente != null;
+
+  // "nombre" field.
+  String? _nombre;
+  String get nombre => _nombre ?? '';
+  bool hasNombre() => _nombre != null;
+
+  // "apellidos" field.
+  String? _apellidos;
+  String get apellidos => _apellidos ?? '';
+  bool hasApellidos() => _apellidos != null;
+
+  // "telefono" field.
+  String? _telefono;
+  String get telefono => _telefono ?? '';
+  bool hasTelefono() => _telefono != null;
+
+  // "motivoConsulta" field.
+  String? _motivoConsulta;
+  String get motivoConsulta => _motivoConsulta ?? '';
+  bool hasMotivoConsulta() => _motivoConsulta != null;
+
+  // "frecuenciaSesiones" field.
+  int? _frecuenciaSesiones;
+
+  /// Entero que muestra la cantidad de sesiones por mes, asignada por el
+  /// psicólogo.
+  int get frecuenciaSesiones => _frecuenciaSesiones ?? 0;
+  bool hasFrecuenciaSesiones() => _frecuenciaSesiones != null;
+
+  // "medicacionActual" field.
+  String? _medicacionActual;
+  String get medicacionActual => _medicacionActual ?? '';
+  bool hasMedicacionActual() => _medicacionActual != null;
+
+  // "observaciones" field.
+  String? _observaciones;
+  String get observaciones => _observaciones ?? '';
+  bool hasObservaciones() => _observaciones != null;
+
+  // "estado" field.
+  String? _estado;
+  String get estado => _estado ?? '';
+  bool hasEstado() => _estado != null;
+
+  // "nivelAnsiedad" field.
+  double? _nivelAnsiedad;
+  double get nivelAnsiedad => _nivelAnsiedad ?? 0.0;
+  bool hasNivelAnsiedad() => _nivelAnsiedad != null;
+
+  // "nivelEstres" field.
+  double? _nivelEstres;
+  double get nivelEstres => _nivelEstres ?? 0.0;
+  bool hasNivelEstres() => _nivelEstres != null;
+
+  // "nivelDepresion" field.
+  double? _nivelDepresion;
+  double get nivelDepresion => _nivelDepresion ?? 0.0;
+  bool hasNivelDepresion() => _nivelDepresion != null;
+
   void _initializeFields() {
-    _expediente = castToType<int>(snapshotData['Expediente']);
-    _nombreUsuario = snapshotData['Nombre_Usuario'] as String?;
-    _password = snapshotData['Password'] as String?;
-    _rol = snapshotData['Rol'] as String?;
+    _expPsicologo = snapshotData['ExpPsicologo'] as DocumentReference?;
+    _userRef = snapshotData['user_ref'] as DocumentReference?;
+    _emailInvitado = snapshotData['email_invitado'] as String?;
+    _userUidLink = snapshotData['user_uid_link'] as String?;
+    _psicologoUid = snapshotData['psicologo_uid'] as DocumentReference?;
+    _fotoUrl = snapshotData['foto_url'] as String?;
+    _fechaRegistro = snapshotData['fecha_registro'] as DateTime?;
+    _rol = snapshotData['rol'] as String?;
+    _expedientePaciente = snapshotData['expedientePaciente'] as String?;
+    _nombre = snapshotData['nombre'] as String?;
+    _apellidos = snapshotData['apellidos'] as String?;
+    _telefono = snapshotData['telefono'] as String?;
+    _motivoConsulta = snapshotData['motivoConsulta'] as String?;
+    _frecuenciaSesiones = castToType<int>(snapshotData['frecuenciaSesiones']);
+    _medicacionActual = snapshotData['medicacionActual'] as String?;
+    _observaciones = snapshotData['observaciones'] as String?;
+    _estado = snapshotData['estado'] as String?;
+    _nivelAnsiedad = castToType<double>(snapshotData['nivelAnsiedad']);
+    _nivelEstres = castToType<double>(snapshotData['nivelEstres']);
+    _nivelDepresion = castToType<double>(snapshotData['nivelDepresion']);
   }
 
   static CollectionReference get collection =>
@@ -77,17 +176,49 @@ class PacientesRecord extends FirestoreRecord {
 }
 
 Map<String, dynamic> createPacientesRecordData({
-  int? expediente,
-  String? nombreUsuario,
-  String? password,
+  DocumentReference? expPsicologo,
+  DocumentReference? userRef,
+  String? emailInvitado,
+  String? userUidLink,
+  DocumentReference? psicologoUid,
+  String? fotoUrl,
+  DateTime? fechaRegistro,
   String? rol,
+  String? expedientePaciente,
+  String? nombre,
+  String? apellidos,
+  String? telefono,
+  String? motivoConsulta,
+  int? frecuenciaSesiones,
+  String? medicacionActual,
+  String? observaciones,
+  String? estado,
+  double? nivelAnsiedad,
+  double? nivelEstres,
+  double? nivelDepresion,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
-      'Expediente': expediente,
-      'Nombre_Usuario': nombreUsuario,
-      'Password': password,
-      'Rol': rol,
+      'ExpPsicologo': expPsicologo,
+      'user_ref': userRef,
+      'email_invitado': emailInvitado,
+      'user_uid_link': userUidLink,
+      'psicologo_uid': psicologoUid,
+      'foto_url': fotoUrl,
+      'fecha_registro': fechaRegistro,
+      'rol': rol,
+      'expedientePaciente': expedientePaciente,
+      'nombre': nombre,
+      'apellidos': apellidos,
+      'telefono': telefono,
+      'motivoConsulta': motivoConsulta,
+      'frecuenciaSesiones': frecuenciaSesiones,
+      'medicacionActual': medicacionActual,
+      'observaciones': observaciones,
+      'estado': estado,
+      'nivelAnsiedad': nivelAnsiedad,
+      'nivelEstres': nivelEstres,
+      'nivelDepresion': nivelDepresion,
     }.withoutNulls,
   );
 
@@ -99,15 +230,51 @@ class PacientesRecordDocumentEquality implements Equality<PacientesRecord> {
 
   @override
   bool equals(PacientesRecord? e1, PacientesRecord? e2) {
-    return e1?.expediente == e2?.expediente &&
-        e1?.nombreUsuario == e2?.nombreUsuario &&
-        e1?.password == e2?.password &&
-        e1?.rol == e2?.rol;
+    return e1?.expPsicologo == e2?.expPsicologo &&
+        e1?.userRef == e2?.userRef &&
+        e1?.emailInvitado == e2?.emailInvitado &&
+        e1?.userUidLink == e2?.userUidLink &&
+        e1?.psicologoUid == e2?.psicologoUid &&
+        e1?.fotoUrl == e2?.fotoUrl &&
+        e1?.fechaRegistro == e2?.fechaRegistro &&
+        e1?.rol == e2?.rol &&
+        e1?.expedientePaciente == e2?.expedientePaciente &&
+        e1?.nombre == e2?.nombre &&
+        e1?.apellidos == e2?.apellidos &&
+        e1?.telefono == e2?.telefono &&
+        e1?.motivoConsulta == e2?.motivoConsulta &&
+        e1?.frecuenciaSesiones == e2?.frecuenciaSesiones &&
+        e1?.medicacionActual == e2?.medicacionActual &&
+        e1?.observaciones == e2?.observaciones &&
+        e1?.estado == e2?.estado &&
+        e1?.nivelAnsiedad == e2?.nivelAnsiedad &&
+        e1?.nivelEstres == e2?.nivelEstres &&
+        e1?.nivelDepresion == e2?.nivelDepresion;
   }
 
   @override
-  int hash(PacientesRecord? e) => const ListEquality()
-      .hash([e?.expediente, e?.nombreUsuario, e?.password, e?.rol]);
+  int hash(PacientesRecord? e) => const ListEquality().hash([
+        e?.expPsicologo,
+        e?.userRef,
+        e?.emailInvitado,
+        e?.userUidLink,
+        e?.psicologoUid,
+        e?.fotoUrl,
+        e?.fechaRegistro,
+        e?.rol,
+        e?.expedientePaciente,
+        e?.nombre,
+        e?.apellidos,
+        e?.telefono,
+        e?.motivoConsulta,
+        e?.frecuenciaSesiones,
+        e?.medicacionActual,
+        e?.observaciones,
+        e?.estado,
+        e?.nivelAnsiedad,
+        e?.nivelEstres,
+        e?.nivelDepresion
+      ]);
 
   @override
   bool isValidKey(Object? o) => o is PacientesRecord;

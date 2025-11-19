@@ -83,7 +83,7 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
             borderWidth: 1.0,
             buttonSize: 60.0,
             icon: Icon(
-              Icons.arrow_back_rounded,
+              Icons.logout_sharp,
               color: FlutterFlowTheme.of(context).primaryText,
               size: 30.0,
             ),

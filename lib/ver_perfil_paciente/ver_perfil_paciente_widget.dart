@@ -80,37 +80,31 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           automaticallyImplyLeading: false,
-          leading: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-            child: FlutterFlowIconButton(
-              borderColor: Colors.transparent,
-              borderRadius: 12.0,
-              borderWidth: 1.0,
-              buttonSize: 40.0,
-              fillColor: Colors.transparent,
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: FlutterFlowTheme.of(context).primaryText,
-                size: 24.0,
-              ),
-              onPressed: () async {
-                context.safePop();
-              },
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.chevron_left_sharp,
+              color: FlutterFlowTheme.of(context).primaryText,
+              size: 30.0,
             ),
+            onPressed: () async {
+              context.pop();
+            },
           ),
           title: Text(
-            'Perfil del Paciente',
-            textAlign: TextAlign.center,
+            'Perfil del paciente',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.interTight(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
                     fontStyle:
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  fontSize: 20.0,
+                  fontSize: 24.0,
                   letterSpacing: 0.0,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                   fontStyle:
                       FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                 ),

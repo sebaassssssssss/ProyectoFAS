@@ -92,7 +92,7 @@ class _AsignarTareaWidgetState extends State<AsignarTareaWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           automaticallyImplyLeading: false,
           leading: FlutterFlowIconButton(
             borderColor: Colors.transparent,
@@ -100,7 +100,7 @@ class _AsignarTareaWidgetState extends State<AsignarTareaWidget> {
             borderWidth: 1.0,
             buttonSize: 40.0,
             icon: Icon(
-              Icons.arrow_back_rounded,
+              Icons.chevron_left_sharp,
               color: FlutterFlowTheme.of(context).primaryText,
               size: 24.0,
             ),
@@ -109,16 +109,16 @@ class _AsignarTareaWidgetState extends State<AsignarTareaWidget> {
             },
           ),
           title: Text(
-            'Asignar Nueva Tarea',
+            'Asignar tarea',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.interTight(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
                     fontStyle:
                         FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
-                  fontSize: 20.0,
+                  fontSize: 24.0,
                   letterSpacing: 0.0,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.bold,
                   fontStyle:
                       FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                 ),

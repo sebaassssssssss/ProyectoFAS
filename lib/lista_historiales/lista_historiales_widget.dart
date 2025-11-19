@@ -86,16 +86,18 @@ class _ListaHistorialesWidgetState extends State<ListaHistorialesWidget> {
             },
           ),
           title: Text(
-            'Historiales Clínicos',
-            style: FlutterFlowTheme.of(context).titleLarge.override(
+            'Historiales clínicos',
+            style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.interTight(
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
                     fontStyle:
-                        FlutterFlowTheme.of(context).titleLarge.fontStyle,
+                        FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                   ),
+                  fontSize: 24.0,
                   letterSpacing: 0.0,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FlutterFlowTheme.of(context).titleLarge.fontStyle,
+                  fontWeight: FontWeight.bold,
+                  fontStyle:
+                      FlutterFlowTheme.of(context).headlineMedium.fontStyle,
                 ),
           ),
           actions: [],

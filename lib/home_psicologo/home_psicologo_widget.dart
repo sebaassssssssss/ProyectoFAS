@@ -163,7 +163,7 @@ class _HomePsicologoWidgetState extends State<HomePsicologoWidget> {
                         ),
                       ),
                       FlutterFlowCalendar(
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: FlutterFlowTheme.of(context).secondary,
                         iconColor: FlutterFlowTheme.of(context).secondaryText,
                         weekFormat: false,
                         weekStartsMonday: false,
@@ -315,7 +315,6 @@ class _HomePsicologoWidgetState extends State<HomePsicologoWidget> {
                                     isEqualTo: currentUserReference,
                                   )
                                   .orderBy('fechaHora'),
-                              limit: 5,
                             ),
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
@@ -541,8 +540,9 @@ class _HomePsicologoWidgetState extends State<HomePsicologoWidget> {
                         ].divide(SizedBox(height: 8.0)),
                       ),
                       FFButtonWidget(
-                        onPressed: () {
-                          print('Button pressed ...');
+                        onPressed: () async {
+                          context.pushNamed(
+                              AgendaCompletaPsicologoWidget.routeName);
                         },
                         text: 'Ver Todo',
                         options: FFButtonOptions(

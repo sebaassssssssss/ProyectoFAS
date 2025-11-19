@@ -94,7 +94,7 @@ class _RegistroPsicologoWidgetState extends State<RegistroPsicologoWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           automaticallyImplyLeading: false,
@@ -206,7 +206,7 @@ class _RegistroPsicologoWidgetState extends State<RegistroPsicologoWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 40.0, 0.0, 40.0, 8.0),
                             child: Text(
-                              'Crear cuenta',
+                              'Completa tu información',
                               style: FlutterFlowTheme.of(context)
                                   .titleLarge
                                   .override(
@@ -229,7 +229,7 @@ class _RegistroPsicologoWidgetState extends State<RegistroPsicologoWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 40.0, 0.0, 40.0, 24.0),
                             child: Text(
-                              'Completa el formulario para registrarte',
+                              'Ingresa tu información profesional',
                               textAlign: TextAlign.center,
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
@@ -1212,7 +1212,7 @@ class _RegistroPsicologoWidgetState extends State<RegistroPsicologoWidget> {
                                             EdgeInsetsDirectional.fromSTEB(
                                                 0.0, 0.0, 0.0, 0.0),
                                         color: FlutterFlowTheme.of(context)
-                                            .tertiary,
+                                            .secondary,
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
@@ -1349,7 +1349,7 @@ class _RegistroPsicologoWidgetState extends State<RegistroPsicologoWidget> {
                                             EdgeInsetsDirectional.fromSTEB(
                                                 0.0, 0.0, 0.0, 0.0),
                                         color: FlutterFlowTheme.of(context)
-                                            .secondary,
+                                            .primary,
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(

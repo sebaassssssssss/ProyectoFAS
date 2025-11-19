@@ -4,8 +4,10 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'lista_pacientes_psicologo_model.dart';
 export 'lista_pacientes_psicologo_model.dart';
 
@@ -53,6 +55,8 @@ class _ListaPacientesPsicologoWidgetState
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -91,7 +95,7 @@ class _ListaPacientesPsicologoWidgetState
               size: 30.0,
             ),
             onPressed: () async {
-              context.pop();
+              context.pushNamed(HomePsicologoWidget.routeName);
             },
           ),
           title: Text(
@@ -125,6 +129,15 @@ class _ListaPacientesPsicologoWidgetState
                 child: TextFormField(
                   controller: _model.textController,
                   focusNode: _model.textFieldFocusNode,
+                  onChanged: (_) => EasyDebounce.debounce(
+                    '_model.textController',
+                    Duration(milliseconds: 2000),
+                    () async {
+                      FFAppState().searchQueryPacientes =
+                          _model.textController.text;
+                      safeSetState(() {});
+                    },
+                  ),
                   autofocus: false,
                   obscureText: false,
                   decoration: InputDecoration(
@@ -206,10 +219,21 @@ class _ListaPacientesPsicologoWidgetState
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
                 child: StreamBuilder<List<PacientesRecord>>(
                   stream: queryPacientesRecord(
-                    queryBuilder: (pacientesRecord) => pacientesRecord.where(
-                      'psicologo_uid',
-                      isEqualTo: currentUserReference,
-                    ),
+                    queryBuilder: (pacientesRecord) => pacientesRecord
+                        .where(
+                          'psicologo_uid',
+                          isEqualTo: currentUserReference,
+                        )
+                        .where(
+                          'nombre',
+                          isGreaterThanOrEqualTo:
+                              FFAppState().searchQueryPacientes,
+                        )
+                        .where(
+                          'nombre',
+                          isLessThanOrEqualTo:
+                              '${FFAppState().searchQueryPacientes}\\uf8ff',
+                        ),
                   ),
                   builder: (context, snapshot) {
                     // Customize what your widget looks like when it's loading.
@@ -425,8 +449,15 @@ class _ListaPacientesPsicologoWidgetState
                                           ),
                                           onPressed: () async {
                                             context.pushNamed(
-                                                EliminarPacienteWidget
-                                                    .routeName);
+                                              EliminarpacienteWidget.routeName,
+                                              queryParameters: {
+                                                'pacienteRef': serializeParam(
+                                                  listViewPacientesRecord
+                                                      .reference,
+                                                  ParamType.DocumentReference,
+                                                ),
+                                              }.withoutNulls,
+                                            );
                                           },
                                         ),
                                       ].divide(SizedBox(width: 8.0)),

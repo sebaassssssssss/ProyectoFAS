@@ -45,6 +45,11 @@ class CitasRecord extends FirestoreRecord {
   String get nombrePaciente => _nombrePaciente ?? '';
   bool hasNombrePaciente() => _nombrePaciente != null;
 
+  // "apellidosPaciente" field.
+  String? _apellidosPaciente;
+  String get apellidosPaciente => _apellidosPaciente ?? '';
+  bool hasApellidosPaciente() => _apellidosPaciente != null;
+
   void _initializeFields() {
     _psicologoUid = snapshotData['psicologo_uid'] as DocumentReference?;
     _pacienteRef = snapshotData['paciente_ref'] as DocumentReference?;
@@ -52,6 +57,7 @@ class CitasRecord extends FirestoreRecord {
     _motivoCita = snapshotData['motivoCita'] as String?;
     _estado = snapshotData['estado'] as String?;
     _nombrePaciente = snapshotData['nombrePaciente'] as String?;
+    _apellidosPaciente = snapshotData['apellidosPaciente'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -94,6 +100,7 @@ Map<String, dynamic> createCitasRecordData({
   String? motivoCita,
   String? estado,
   String? nombrePaciente,
+  String? apellidosPaciente,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -103,6 +110,7 @@ Map<String, dynamic> createCitasRecordData({
       'motivoCita': motivoCita,
       'estado': estado,
       'nombrePaciente': nombrePaciente,
+      'apellidosPaciente': apellidosPaciente,
     }.withoutNulls,
   );
 
@@ -119,7 +127,8 @@ class CitasRecordDocumentEquality implements Equality<CitasRecord> {
         e1?.fechaHora == e2?.fechaHora &&
         e1?.motivoCita == e2?.motivoCita &&
         e1?.estado == e2?.estado &&
-        e1?.nombrePaciente == e2?.nombrePaciente;
+        e1?.nombrePaciente == e2?.nombrePaciente &&
+        e1?.apellidosPaciente == e2?.apellidosPaciente;
   }
 
   @override
@@ -129,7 +138,8 @@ class CitasRecordDocumentEquality implements Equality<CitasRecord> {
         e?.fechaHora,
         e?.motivoCita,
         e?.estado,
-        e?.nombrePaciente
+        e?.nombrePaciente,
+        e?.apellidosPaciente
       ]);
 
   @override

@@ -1,8 +1,10 @@
 import '/backend/backend.dart';
+import '/backend/supabase/supabase.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/upload_data.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -74,9 +76,9 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: Color(0xFFF5F5F5),
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           automaticallyImplyLeading: false,
           leading: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
@@ -98,6 +100,7 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
           ),
           title: Text(
             'Perfil del Paciente',
+            textAlign: TextAlign.center,
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.interTight(
                     fontWeight: FontWeight.w600,
@@ -113,7 +116,7 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                 ),
           ),
           actions: [],
-          centerTitle: false,
+          centerTitle: true,
           elevation: 2.0,
         ),
         body: SafeArea(
@@ -816,7 +819,8 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                         child: Container(
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
                             borderRadius: BorderRadius.circular(12.0),
                             border: Border.all(
                               color: Color(0xFFE0E0E0),
@@ -873,8 +877,102 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
+                                      onPressed: () async {
+                                        final selectedFiles = await selectFiles(
+                                          storageFolderPath:
+                                              'pacientes/${widget.pacienteRef?.id}/historial-${dateTimeFormat("yyyyMMdd_HHmmss", getCurrentTimestamp)}.pdf',
+                                          allowedExtensions: ['pdf'],
+                                          multiFile: false,
+                                        );
+                                        if (selectedFiles != null) {
+                                          safeSetState(() => _model
+                                              .isDataUploading_pdfurl = true);
+                                          var selectedUploadedFiles =
+                                              <FFUploadedFile>[];
+
+                                          var downloadUrls = <String>[];
+                                          try {
+                                            showUploadMessage(
+                                              context,
+                                              'Uploading file...',
+                                              showLoading: true,
+                                            );
+                                            selectedUploadedFiles =
+                                                selectedFiles
+                                                    .map((m) => FFUploadedFile(
+                                                          name: m.storagePath
+                                                              .split('/')
+                                                              .last,
+                                                          bytes: m.bytes,
+                                                          originalFilename: m
+                                                              .originalFilename,
+                                                        ))
+                                                    .toList();
+
+                                            downloadUrls =
+                                                await uploadSupabaseStorageFiles(
+                                              bucketName: 'Archivos',
+                                              selectedFiles: selectedFiles,
+                                            );
+                                          } finally {
+                                            ScaffoldMessenger.of(context)
+                                                .hideCurrentSnackBar();
+                                            _model.isDataUploading_pdfurl =
+                                                false;
+                                          }
+                                          if (selectedUploadedFiles.length ==
+                                                  selectedFiles.length &&
+                                              downloadUrls.length ==
+                                                  selectedFiles.length) {
+                                            safeSetState(() {
+                                              _model.uploadedLocalFile_pdfurl =
+                                                  selectedUploadedFiles.first;
+                                              _model.uploadedFileUrl_pdfurl =
+                                                  downloadUrls.first;
+                                            });
+                                            showUploadMessage(
+                                              context,
+                                              'Success!',
+                                            );
+                                          } else {
+                                            safeSetState(() {});
+                                            showUploadMessage(
+                                              context,
+                                              'Failed to upload file',
+                                            );
+                                            return;
+                                          }
+                                        }
+
+                                        await widget.pacienteRef!.update({
+                                          ...mapToFirestore(
+                                            {
+                                              'historialClinicoPdf':
+                                                  FieldValue.arrayUnion([
+                                                _model.uploadedFileUrl_pdfurl
+                                              ]),
+                                            },
+                                          ),
+                                        });
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              'Historial subido con éxito',
+                                              style: TextStyle(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                            duration:
+                                                Duration(milliseconds: 4000),
+                                            backgroundColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .secondary,
+                                          ),
+                                        );
                                       },
                                       text: 'Subir Historial Clínico (PDF)',
                                       icon: Icon(
@@ -891,7 +989,8 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                                 0.0, 0.0, 0.0, 0.0),
                                         iconColor: FlutterFlowTheme.of(context)
                                             .primary,
-                                        color: Color(0xFFF3F4F6),
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
@@ -924,8 +1023,18 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                       ),
                                     ),
                                     FFButtonWidget(
-                                      onPressed: () {
-                                        print('Button pressed ...');
+                                      onPressed: () async {
+                                        context.pushNamed(
+                                          ListaHistorialesWidget.routeName,
+                                          queryParameters: {
+                                            'archivosPaciente': serializeParam(
+                                              columnPacientesRecord
+                                                  .historialClinicoPdf,
+                                              ParamType.String,
+                                              isList: true,
+                                            ),
+                                          }.withoutNulls,
+                                        );
                                       },
                                       text: 'Ver Documentos/Archivos Adjuntos',
                                       icon: Icon(
@@ -942,7 +1051,8 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                                 0.0, 0.0, 0.0, 0.0),
                                         iconColor: FlutterFlowTheme.of(context)
                                             .secondaryText,
-                                        color: Color(0xFFF9FAFB),
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondaryBackground,
                                         textStyle: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
@@ -990,7 +1100,7 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                 context
                                     .pushNamed(EditarPacienteWidget.routeName);
                               },
-                              text: 'Editar Paciente',
+                              text: 'Editar',
                               icon: Icon(
                                 Icons.edit_rounded,
                                 size: 20.0,
@@ -1031,10 +1141,18 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                           ),
                           Expanded(
                             child: FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
+                              onPressed: () async {
+                                context.pushNamed(
+                                  CrearCitaWidget.routeName,
+                                  queryParameters: {
+                                    'pacienteRef': serializeParam(
+                                      widget.pacienteRef,
+                                      ParamType.DocumentReference,
+                                    ),
+                                  }.withoutNulls,
+                                );
                               },
-                              text: 'Nueva Cita',
+                              text: 'Cita',
                               icon: Icon(
                                 Icons.event_rounded,
                                 size: 20.0,
@@ -1046,7 +1164,59 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                 iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 iconColor: Colors.white,
-                                color: FlutterFlowTheme.of(context).secondary,
+                                color: FlutterFlowTheme.of(context).primary,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      font: GoogleFonts.interTight(
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: Colors.white,
+                                      fontSize: 14.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
+                                elevation: 2.0,
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: FFButtonWidget(
+                              onPressed: () async {
+                                context.pushNamed(
+                                  AsignarTareaWidget.routeName,
+                                  queryParameters: {
+                                    'pacienteRef': serializeParam(
+                                      widget.pacienteRef,
+                                      ParamType.DocumentReference,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              },
+                              text: 'Tarea',
+                              icon: Icon(
+                                Icons.task_rounded,
+                                size: 20.0,
+                              ),
+                              options: FFButtonOptions(
+                                height: 50.0,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                iconColor: Colors.white,
+                                color: FlutterFlowTheme.of(context).primary,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(

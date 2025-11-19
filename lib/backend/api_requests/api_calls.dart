@@ -8,10 +8,10 @@ export 'api_manager.dart' show ApiCallResponse;
 
 const _kPrivateApiFunctionName = 'ffPrivateApiCall';
 
-/// Start ValidarCedulaRapidAPI Group Code
+/// Start ValidarCedulaRapidAPIMarket Group Code
 
-class ValidarCedulaRapidAPIGroup {
-  static String getBaseUrl() => 'https://';
+class ValidarCedulaRapidAPIMarketGroup {
+  static String getBaseUrl() => 'https://api.apimarket.mx';
   static Map<String, String> headers = {
     'Content-Type': 'application/json',
   };
@@ -24,7 +24,7 @@ class SendFullPromptCall {
     String? apiKey = '',
     dynamic promptJson,
   }) async {
-    final baseUrl = ValidarCedulaRapidAPIGroup.getBaseUrl();
+    final baseUrl = ValidarCedulaRapidAPIMarketGroup.getBaseUrl();
 
     final prompt = _serializeJson(promptJson);
     final ffApiRequestBody = '''
@@ -68,21 +68,26 @@ class SendFullPromptCall {
 
 class ValidarCedulaCall {
   Future<ApiCallResponse> call({
-    String? cedula = '123456',
+    String? cedula = '',
   }) async {
-    final baseUrl = ValidarCedulaRapidAPIGroup.getBaseUrl();
+    final baseUrl = ValidarCedulaRapidAPIMarketGroup.getBaseUrl();
 
+    final ffApiRequestBody = '''
+{
+  "cedula": "{{cedula}}"
+}''';
     return ApiManager.instance.makeApiCall(
       callName: 'ValidarCedula',
-      apiUrl:
-          '${baseUrl}/cedulas-profesionales-sep.p.rapidapi.com/api/v1/sep/cedula?cedula=${cedula}',
-      callType: ApiCallType.GET,
+      apiUrl: '${baseUrl}/api/grupo/validar-cedula',
+      callType: ApiCallType.POST,
       headers: {
         'Content-Type': 'application/json',
-        'X-RapidAPI-Key': '6cf9684744msh7a95f9ba035601ep1af5f4jsnbc3ae006916e',
-        'X-RapidAPI-Host': 'cedulas-profesionales-sep.p.rapidapi.com',
+        'Authorization': 'Bearer fe26099d-c46e-4d32-8aab-8da51b275439',
+        'Content-Type': '\tapplication/json',
       },
       params: {},
+      body: ffApiRequestBody,
+      bodyType: BodyType.JSON,
       returnBody: true,
       encodeBodyUtf8: false,
       decodeUtf8: false,
@@ -93,7 +98,7 @@ class ValidarCedulaCall {
   }
 }
 
-/// End ValidarCedulaRapidAPI Group Code
+/// End ValidarCedulaRapidAPIMarket Group Code
 
 class ApiPagingParams {
   int nextPageNumber = 0;
@@ -140,4 +145,15 @@ String _serializeJson(dynamic jsonVar, [bool isList = false]) {
     }
     return isList ? '[]' : '{}';
   }
+}
+
+String? escapeStringForJson(String? input) {
+  if (input == null) {
+    return null;
+  }
+  return input
+      .replaceAll('\\', '\\\\')
+      .replaceAll('"', '\\"')
+      .replaceAll('\n', '\\n')
+      .replaceAll('\t', '\\t');
 }

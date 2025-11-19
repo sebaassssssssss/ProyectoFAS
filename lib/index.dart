@@ -10,8 +10,6 @@ export '/agenda_completa_psicologo/agenda_completa_psicologo_widget.dart'
 export '/lista_pacientes_psicologo/lista_pacientes_psicologo_widget.dart'
     show ListaPacientesPsicologoWidget;
 export '/editar_paciente/editar_paciente_widget.dart' show EditarPacienteWidget;
-export '/eliminar_paciente/eliminar_paciente_widget.dart'
-    show EliminarPacienteWidget;
 export '/login_usuario/login_usuario_widget.dart' show LoginUsuarioWidget;
 export '/registro_usuario/registro_usuario_widget.dart'
     show RegistroUsuarioWidget;
@@ -21,3 +19,11 @@ export '/crear_nuevo_paciente/crear_nuevo_paciente_widget.dart'
 export '/home_paciente/home_paciente_widget.dart' show HomePacienteWidget;
 export '/ver_perfil_paciente/ver_perfil_paciente_widget.dart'
     show VerPerfilPacienteWidget;
+export '/crear_cita/crear_cita_widget.dart' show CrearCitaWidget;
+export '/asignar_tarea/asignar_tarea_widget.dart' show AsignarTareaWidget;
+export '/prueb_validar_a_p_i/prueb_validar_a_p_i_widget.dart'
+    show PruebValidarAPIWidget;
+export '/lista_historiales/lista_historiales_widget.dart'
+    show ListaHistorialesWidget;
+export '/eliminarpaciente/eliminarpaciente_widget.dart'
+    show EliminarpacienteWidget;

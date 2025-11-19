@@ -73,30 +73,42 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           automaticallyImplyLeading: false,
-          actions: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
-              child: FlutterFlowIconButton(
-                borderRadius: 20.0,
-                buttonSize: 40.0,
-                fillColor: Colors.white,
-                icon: Icon(
-                  Icons.notifications,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 24.0,
-                ),
-                onPressed: () {
-                  print('IconButton pressed ...');
-                },
-              ),
+          leading: FlutterFlowIconButton(
+            borderColor: Colors.transparent,
+            borderRadius: 30.0,
+            borderWidth: 1.0,
+            buttonSize: 60.0,
+            icon: Icon(
+              Icons.arrow_back_rounded,
+              color: FlutterFlowTheme.of(context).primaryText,
+              size: 30.0,
             ),
-          ],
-          centerTitle: false,
-          elevation: 0.0,
+            onPressed: () async {
+              context.pop();
+            },
+          ),
+          title: Text(
+            'Inicio',
+            textAlign: TextAlign.center,
+            style: FlutterFlowTheme.of(context).headlineSmall.override(
+                  font: GoogleFonts.interTight(
+                    fontWeight: FontWeight.bold,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).headlineSmall.fontStyle,
+                  ),
+                  letterSpacing: 0.0,
+                  fontWeight: FontWeight.bold,
+                  fontStyle:
+                      FlutterFlowTheme.of(context).headlineSmall.fontStyle,
+                ),
+          ),
+          actions: [],
+          centerTitle: true,
+          elevation: 2.0,
         ),
         body: SafeArea(
           top: true,
@@ -146,7 +158,7 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 8.0,
@@ -353,7 +365,8 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                       return Container(
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
                           boxShadow: [
                             BoxShadow(
                               blurRadius: 8.0,
@@ -554,7 +567,7 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 8.0,
@@ -613,7 +626,8 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                                 child: Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFF8F9FA),
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate,
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   child: Padding(
@@ -691,7 +705,8 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                                 child: Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFF8F9FA),
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate,
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   child: Padding(
@@ -769,7 +784,8 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                                 child: Container(
                                   width: double.infinity,
                                   decoration: BoxDecoration(
-                                    color: Color(0xFFF8F9FA),
+                                    color:
+                                        FlutterFlowTheme.of(context).alternate,
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                   child: Padding(
@@ -851,7 +867,7 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: FlutterFlowTheme.of(context).secondaryBackground,
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 8.0,
@@ -867,7 +883,7 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                     child: Padding(
                       padding: EdgeInsets.all(20.0),
                       child: Column(
-                        mainAxisSize: MainAxisSize.max,
+                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
@@ -976,7 +992,7 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                                 ].divide(SizedBox(height: 8.0)),
                               ),
                               Column(
-                                mainAxisSize: MainAxisSize.max,
+                                mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Row(

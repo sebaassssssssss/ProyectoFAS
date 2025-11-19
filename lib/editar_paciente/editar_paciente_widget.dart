@@ -1,9 +1,8 @@
-import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
-import '/flutter_flow/form_field_controller.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -62,6 +61,9 @@ class _EditarPacienteWidgetState extends State<EditarPacienteWidget> {
 
     _model.textController4 ??= TextEditingController();
     _model.textFieldFocusNode4 ??= FocusNode();
+
+    _model.textController5 ??= TextEditingController();
+    _model.textFieldFocusNode5 ??= FocusNode();
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }
@@ -694,7 +696,7 @@ class _EditarPacienteWidgetState extends State<EditarPacienteWidget> {
                                 size: 24.0,
                               ),
                               Text(
-                                'Estado del Paciente',
+                                'Contacto',
                                 style: FlutterFlowTheme.of(context)
                                     .titleMedium
                                     .override(
@@ -713,17 +715,71 @@ class _EditarPacienteWidgetState extends State<EditarPacienteWidget> {
                               ),
                             ].divide(SizedBox(width: 8.0)),
                           ),
-                          FlutterFlowDropDown<String>(
-                            controller: _model.dropDownValueController ??=
-                                FormFieldController<String>(
-                              _model.dropDownValue ??= 'Activo',
+                          TextFormField(
+                            controller: _model.textController5,
+                            focusNode: _model.textFieldFocusNode5,
+                            autofocus: false,
+                            textCapitalization: TextCapitalization.sentences,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              labelText: 'Nuevo número de teléfono',
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                              hintText: 'Número de teléfono',
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).alternate,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).error,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).error,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              filled: true,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              contentPadding: EdgeInsetsDirectional.fromSTEB(
+                                  16.0, 14.0, 16.0, 14.0),
                             ),
-                            options: ['Activo', 'Baja'],
-                            onChanged: (val) =>
-                                safeSetState(() => _model.dropDownValue = val),
-                            width: double.infinity,
-                            height: 56.0,
-                            textStyle: FlutterFlowTheme.of(context)
+                            style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
                                   font: GoogleFonts.inter(
@@ -744,23 +800,20 @@ class _EditarPacienteWidgetState extends State<EditarPacienteWidget> {
                                       .bodyMedium
                                       .fontStyle,
                                 ),
-                            hintText: 'Seleccionar estado',
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: FlutterFlowTheme.of(context).secondaryText,
-                              size: 24.0,
-                            ),
-                            fillColor:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            elevation: 2.0,
-                            borderColor: FlutterFlowTheme.of(context).alternate,
-                            borderWidth: 1.0,
-                            borderRadius: 8.0,
-                            margin: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 4.0, 0.0, 4.0),
-                            hidesUnderline: true,
-                            isSearchable: false,
-                            isMultiSelect: false,
+                            cursorColor: FlutterFlowTheme.of(context).primary,
+                            validator: _model.textController5Validator
+                                .asValidator(context),
+                            inputFormatters: [
+                              if (!isAndroid && !isiOS)
+                                TextInputFormatter.withFunction(
+                                    (oldValue, newValue) {
+                                  return TextEditingValue(
+                                    selection: newValue.selection,
+                                    text: newValue.text.toCapitalization(
+                                        TextCapitalization.sentences),
+                                  );
+                                }),
+                            ],
                           ),
                         ].divide(SizedBox(height: 16.0)),
                       ),
@@ -884,8 +937,9 @@ class _EditarPacienteWidgetState extends State<EditarPacienteWidget> {
                     children: [
                       Expanded(
                         child: FFButtonWidget(
-                          onPressed: () {
-                            print('Button pressed ...');
+                          onPressed: () async {
+                            context.pushNamed(
+                                ListaPacientesPsicologoWidget.routeName);
                           },
                           text: 'Cancelar',
                           options: FFButtonOptions(

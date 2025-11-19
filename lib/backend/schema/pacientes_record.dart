@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -118,6 +119,11 @@ class PacientesRecord extends FirestoreRecord {
   double get nivelDepresion => _nivelDepresion ?? 0.0;
   bool hasNivelDepresion() => _nivelDepresion != null;
 
+  // "historialClinicoPdf" field.
+  List<String>? _historialClinicoPdf;
+  List<String> get historialClinicoPdf => _historialClinicoPdf ?? const [];
+  bool hasHistorialClinicoPdf() => _historialClinicoPdf != null;
+
   void _initializeFields() {
     _expPsicologo = snapshotData['ExpPsicologo'] as DocumentReference?;
     _userRef = snapshotData['user_ref'] as DocumentReference?;
@@ -139,6 +145,7 @@ class PacientesRecord extends FirestoreRecord {
     _nivelAnsiedad = castToType<double>(snapshotData['nivelAnsiedad']);
     _nivelEstres = castToType<double>(snapshotData['nivelEstres']);
     _nivelDepresion = castToType<double>(snapshotData['nivelDepresion']);
+    _historialClinicoPdf = getDataList(snapshotData['historialClinicoPdf']);
   }
 
   static CollectionReference get collection =>
@@ -230,6 +237,7 @@ class PacientesRecordDocumentEquality implements Equality<PacientesRecord> {
 
   @override
   bool equals(PacientesRecord? e1, PacientesRecord? e2) {
+    const listEquality = ListEquality();
     return e1?.expPsicologo == e2?.expPsicologo &&
         e1?.userRef == e2?.userRef &&
         e1?.emailInvitado == e2?.emailInvitado &&
@@ -249,7 +257,8 @@ class PacientesRecordDocumentEquality implements Equality<PacientesRecord> {
         e1?.estado == e2?.estado &&
         e1?.nivelAnsiedad == e2?.nivelAnsiedad &&
         e1?.nivelEstres == e2?.nivelEstres &&
-        e1?.nivelDepresion == e2?.nivelDepresion;
+        e1?.nivelDepresion == e2?.nivelDepresion &&
+        listEquality.equals(e1?.historialClinicoPdf, e2?.historialClinicoPdf);
   }
 
   @override
@@ -273,7 +282,8 @@ class PacientesRecordDocumentEquality implements Equality<PacientesRecord> {
         e?.estado,
         e?.nivelAnsiedad,
         e?.nivelEstres,
-        e?.nivelDepresion
+        e?.nivelDepresion,
+        e?.historialClinicoPdf
       ]);
 
   @override

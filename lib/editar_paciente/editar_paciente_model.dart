@@ -1,5 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/form_field_controller.dart';
+import '/index.dart';
 import 'editar_paciente_widget.dart' show EditarPacienteWidget;
 import 'package:flutter/material.dart';
 
@@ -22,9 +22,10 @@ class EditarPacienteModel extends FlutterFlowModel<EditarPacienteWidget> {
   FocusNode? textFieldFocusNode4;
   TextEditingController? textController4;
   String? Function(BuildContext, String?)? textController4Validator;
-  // State field(s) for DropDown widget.
-  String? dropDownValue;
-  FormFieldController<String>? dropDownValueController;
+  // State field(s) for TextField widget.
+  FocusNode? textFieldFocusNode5;
+  TextEditingController? textController5;
+  String? Function(BuildContext, String?)? textController5Validator;
 
   @override
   void initState(BuildContext context) {}
@@ -42,5 +43,8 @@ class EditarPacienteModel extends FlutterFlowModel<EditarPacienteWidget> {
 
     textFieldFocusNode4?.dispose();
     textController4?.dispose();
+
+    textFieldFocusNode5?.dispose();
+    textController5?.dispose();
   }
 }

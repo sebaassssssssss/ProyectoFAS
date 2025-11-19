@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 import '/index.dart';
@@ -107,7 +106,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: AgendaCompletaPsicologoWidget.routeName,
           path: AgendaCompletaPsicologoWidget.routePath,
-          builder: (context, params) => AgendaCompletaPsicologoWidget(),
+          builder: (context, params) => AgendaCompletaPsicologoWidget(
+            selectedDate: params.getParam(
+              'selectedDate',
+              ParamType.DateTime,
+            ),
+          ),
         ),
         FFRoute(
           name: ListaPacientesPsicologoWidget.routeName,
@@ -118,11 +122,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: EditarPacienteWidget.routeName,
           path: EditarPacienteWidget.routePath,
           builder: (context, params) => EditarPacienteWidget(),
-        ),
-        FFRoute(
-          name: EliminarPacienteWidget.routeName,
-          path: EliminarPacienteWidget.routePath,
-          builder: (context, params) => EliminarPacienteWidget(),
         ),
         FFRoute(
           name: LoginUsuarioWidget.routeName,
@@ -153,6 +152,58 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: VerPerfilPacienteWidget.routeName,
           path: VerPerfilPacienteWidget.routePath,
           builder: (context, params) => VerPerfilPacienteWidget(
+            pacienteRef: params.getParam(
+              'pacienteRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Pacientes'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: CrearCitaWidget.routeName,
+          path: CrearCitaWidget.routePath,
+          builder: (context, params) => CrearCitaWidget(
+            pacienteRef: params.getParam(
+              'pacienteRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Pacientes'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: AsignarTareaWidget.routeName,
+          path: AsignarTareaWidget.routePath,
+          builder: (context, params) => AsignarTareaWidget(
+            pacienteRef: params.getParam(
+              'pacienteRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Pacientes'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: PruebValidarAPIWidget.routeName,
+          path: PruebValidarAPIWidget.routePath,
+          builder: (context, params) => PruebValidarAPIWidget(),
+        ),
+        FFRoute(
+          name: ListaHistorialesWidget.routeName,
+          path: ListaHistorialesWidget.routePath,
+          builder: (context, params) => ListaHistorialesWidget(
+            archivosPaciente: params.getParam<String>(
+              'archivosPaciente',
+              ParamType.String,
+              isList: true,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: EliminarpacienteWidget.routeName,
+          path: EliminarpacienteWidget.routePath,
+          builder: (context, params) => EliminarpacienteWidget(
             pacienteRef: params.getParam(
               'pacienteRef',
               ParamType.DocumentReference,
@@ -344,14 +395,13 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
-                      ),
+              ? Container(
+                  color: Colors.transparent,
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/logoSimpliCitas_SINFONDO.jpg',
+                      width: 1500.0,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 )

@@ -922,10 +922,17 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                           }
                                         }
 
-                                        FFAppState().urlTemporalIdentificacion =
-                                            _model
-                                                .uploadedFileUrl_docHistorialClinico;
-                                        safeSetState(() {});
+                                        await widget.pacienteRef!.update({
+                                          ...mapToFirestore(
+                                            {
+                                              'historialClinicoPdf':
+                                                  FieldValue.arrayUnion([
+                                                _model
+                                                    .uploadedFileUrl_docHistorialClinico
+                                              ]),
+                                            },
+                                          ),
+                                        });
                                       },
                                       text: 'Subir Historial Clínico (PDF)',
                                       icon: Icon(

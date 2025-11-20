@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 class VerPerfilPacienteModel extends FlutterFlowModel<VerPerfilPacienteWidget> {
   ///  State fields for stateful widgets in this page.
 
-  bool isDataUploading_pdfurl = false;
-  FFUploadedFile uploadedLocalFile_pdfurl =
+  bool isDataUploading_docHistorialClinico = false;
+  FFUploadedFile uploadedLocalFile_docHistorialClinico =
       FFUploadedFile(bytes: Uint8List.fromList([]), originalFilename: '');
-  String uploadedFileUrl_pdfurl = '';
+  String uploadedFileUrl_docHistorialClinico = '';
 
   @override
   void initState(BuildContext context) {}

@@ -193,10 +193,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: ListaHistorialesWidget.routeName,
           path: ListaHistorialesWidget.routePath,
           builder: (context, params) => ListaHistorialesWidget(
-            archivosPaciente: params.getParam<String>(
-              'archivosPaciente',
-              ParamType.String,
-              isList: true,
+            pacienteRef: params.getParam(
+              'pacienteRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Pacientes'],
             ),
           ),
         ),

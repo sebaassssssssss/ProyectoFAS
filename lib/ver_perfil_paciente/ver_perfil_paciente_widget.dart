@@ -873,24 +873,18 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                     FFButtonWidget(
                                       onPressed: () async {
                                         final selectedFiles = await selectFiles(
-                                          storageFolderPath:
-                                              'pacientes/${widget.pacienteRef?.id}/historial-${dateTimeFormat("yyyyMMdd_HHmmss", getCurrentTimestamp)}.pdf',
-                                          allowedExtensions: ['pdf'],
+                                          storageFolderPath: 'Historiales',
                                           multiFile: false,
                                         );
                                         if (selectedFiles != null) {
                                           safeSetState(() => _model
-                                              .isDataUploading_pdfurl = true);
+                                                  .isDataUploading_docHistorialClinico =
+                                              true);
                                           var selectedUploadedFiles =
                                               <FFUploadedFile>[];
 
                                           var downloadUrls = <String>[];
                                           try {
-                                            showUploadMessage(
-                                              context,
-                                              'Uploading file...',
-                                              showLoading: true,
-                                            );
                                             selectedUploadedFiles =
                                                 selectedFiles
                                                     .map((m) => FFUploadedFile(
@@ -909,9 +903,7 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                               selectedFiles: selectedFiles,
                                             );
                                           } finally {
-                                            ScaffoldMessenger.of(context)
-                                                .hideCurrentSnackBar();
-                                            _model.isDataUploading_pdfurl =
+                                            _model.isDataUploading_docHistorialClinico =
                                                 false;
                                           }
                                           if (selectedUploadedFiles.length ==
@@ -919,54 +911,21 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                               downloadUrls.length ==
                                                   selectedFiles.length) {
                                             safeSetState(() {
-                                              _model.uploadedLocalFile_pdfurl =
+                                              _model.uploadedLocalFile_docHistorialClinico =
                                                   selectedUploadedFiles.first;
-                                              _model.uploadedFileUrl_pdfurl =
+                                              _model.uploadedFileUrl_docHistorialClinico =
                                                   downloadUrls.first;
                                             });
-                                            showUploadMessage(
-                                              context,
-                                              'Success!',
-                                            );
                                           } else {
                                             safeSetState(() {});
-                                            showUploadMessage(
-                                              context,
-                                              'Failed to upload file',
-                                            );
                                             return;
                                           }
                                         }
 
-                                        await widget.pacienteRef!.update({
-                                          ...mapToFirestore(
-                                            {
-                                              'historialClinicoPdf':
-                                                  FieldValue.arrayUnion([
-                                                _model.uploadedFileUrl_pdfurl
-                                              ]),
-                                            },
-                                          ),
-                                        });
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Historial subido con éxito',
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondary,
-                                          ),
-                                        );
+                                        FFAppState().urlTemporalIdentificacion =
+                                            _model
+                                                .uploadedFileUrl_docHistorialClinico;
+                                        safeSetState(() {});
                                       },
                                       text: 'Subir Historial Clínico (PDF)',
                                       icon: Icon(
@@ -1021,11 +980,9 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                         context.pushNamed(
                                           ListaHistorialesWidget.routeName,
                                           queryParameters: {
-                                            'archivosPaciente': serializeParam(
-                                              columnPacientesRecord
-                                                  .historialClinicoPdf,
-                                              ParamType.String,
-                                              isList: true,
+                                            'pacienteRef': serializeParam(
+                                              widget.pacienteRef,
+                                              ParamType.DocumentReference,
                                             ),
                                           }.withoutNulls,
                                         );

@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -27,10 +28,10 @@ export 'lista_historiales_model.dart';
 class ListaHistorialesWidget extends StatefulWidget {
   const ListaHistorialesWidget({
     super.key,
-    this.archivosPaciente,
+    required this.pacienteRef,
   });
 
-  final List<String>? archivosPaciente;
+  final DocumentReference? pacienteRef;
 
   static String routeName = 'ListaHistoriales';
   static String routePath = '/listaHistoriales';
@@ -111,34 +112,58 @@ class _ListaHistorialesWidgetState extends State<ListaHistorialesWidget> {
             children: [
               Padding(
                 padding: EdgeInsets.all(16.0),
-                child: Builder(
-                  builder: (context) {
-                    final documentoUrl =
-                        widget.archivosPaciente?.toList() ?? [];
-
-                    return ListView.separated(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      itemCount: documentoUrl.length,
-                      separatorBuilder: (_, __) => SizedBox(height: 8.0),
-                      itemBuilder: (context, documentoUrlIndex) {
-                        final documentoUrlItem =
-                            documentoUrl[documentoUrlIndex];
-                        return Card(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          elevation: 2.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Material(
-                            color: Colors.transparent,
-                            child: ListTile(
-                              dense: false,
-                              contentPadding: EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 8.0, 16.0, 8.0),
+                child: StreamBuilder<PacientesRecord>(
+                  stream: PacientesRecord.getDocument(widget.pacienteRef!),
+                  builder: (context, snapshot) {
+                    // Customize what your widget looks like when it's loading.
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: SizedBox(
+                          width: 50.0,
+                          height: 50.0,
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              FlutterFlowTheme.of(context).primary,
                             ),
                           ),
+                        ),
+                      );
+                    }
+
+                    final listViewPacientesRecord = snapshot.data!;
+
+                    return Builder(
+                      builder: (context) {
+                        final archivoItem = listViewPacientesRecord
+                            .historialClinicoPdf
+                            .toList();
+
+                        return ListView.separated(
+                          padding: EdgeInsets.zero,
+                          shrinkWrap: true,
+                          scrollDirection: Axis.vertical,
+                          itemCount: archivoItem.length,
+                          separatorBuilder: (_, __) => SizedBox(height: 8.0),
+                          itemBuilder: (context, archivoItemIndex) {
+                            final archivoItemItem =
+                                archivoItem[archivoItemIndex];
+                            return Card(
+                              clipBehavior: Clip.antiAliasWithSaveLayer,
+                              elevation: 2.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.0),
+                              ),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: ListTile(
+                                  dense: false,
+                                  contentPadding:
+                                      EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 8.0, 16.0, 8.0),
+                                ),
+                              ),
+                            );
+                          },
                         );
                       },
                     );

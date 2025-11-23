@@ -12,35 +12,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'crear_cita_model.dart';
 export 'crear_cita_model.dart';
 
-/// Genera la pantalla "Crear Cita" para el psicólogo.
-///
-/// PRIORIDAD: Interfaz limpia e intuitiva con un flujo de agendamiento
-/// eficiente. Estilo de fondo claro con tarjetas/campos de entrada elevados y
-/// bordes redondeados. Incluir ícono "back".
-///
-/// Widgets Clave: Usar SingleChildScrollView y un Query Collection
-/// (Pacientes) en el backend del Dropdown de selección de paciente.
-///
-/// Campos de Entrada (Widgets):
-///
-/// Dropdown OBLIGATORIO: Etiquetado "Seleccionar Paciente". Debe listar
-/// [nombre] [apellidos] de los pacientes del psicólogo.
-///
-/// Date/Time Picker: Etiquetado "Fecha y Hora".
-///
-/// TextField (Multilínea): Etiquetado "Motivo de la Cita".
-///
-/// Dropdown OBLIGATORIO: Etiquetado "Estado de la Cita". Opciones:
-/// "Programada" (valor por defecto), "Cancelada", "Completada".
-///
-/// Acciones:
-///
-/// Botón Principal "Crear Cita" (Color primario).
-///
-/// Botón Secundario "Cancelar".
-///
-/// Flujo: El botón "Crear Cita" debe mostrar un mensaje de éxito, y luego
-/// navegar a agendaCompletaPsicologo.
+/// t
 class CrearCitaWidget extends StatefulWidget {
   const CrearCitaWidget({
     super.key,
@@ -1040,6 +1012,24 @@ class _CrearCitaWidgetState extends State<CrearCitaWidget> {
                                             apellidosPaciente:
                                                 _model.pacienteData?.apellidos,
                                           ));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Cita creada con éxito.',
+                                            style: TextStyle(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                            ),
+                                          ),
+                                          duration:
+                                              Duration(milliseconds: 4000),
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondary,
+                                        ),
+                                      );
                                       context.safePop();
 
                                       safeSetState(() {});

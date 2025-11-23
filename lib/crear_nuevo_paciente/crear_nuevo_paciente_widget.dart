@@ -971,7 +971,7 @@ class _CrearNuevoPacienteWidgetState extends State<CrearNuevoPacienteWidget> {
                               autofocus: false,
                               obscureText: false,
                               decoration: InputDecoration(
-                                hintText: 'Número de sesiones por semana',
+                                hintText: 'Número de sesiones por mes',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(

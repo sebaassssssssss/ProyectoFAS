@@ -441,7 +441,7 @@ class _LoginUsuarioWidgetState extends State<LoginUsuarioWidget> {
                                       }
 
                                       context.goNamedAuth(
-                                          InicioWidget.routeName,
+                                          LoginUsuarioWidget.routeName,
                                           context.mounted);
                                     },
                                     text: 'Iniciar Sesión',

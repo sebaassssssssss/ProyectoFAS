@@ -8,6 +8,7 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:text_search/text_search.dart';
 import 'lista_pacientes_psicologo_model.dart';
 export 'lista_pacientes_psicologo_model.dart';
 
@@ -131,9 +132,27 @@ class _ListaPacientesPsicologoWidgetState
                     '_model.textController',
                     Duration(milliseconds: 2000),
                     () async {
-                      FFAppState().searchQueryPacientes =
-                          _model.textController.text;
-                      safeSetState(() {});
+                      await queryPacientesRecordOnce()
+                          .then(
+                            (records) => _model.simpleSearchResults =
+                                TextSearch(
+                              records
+                                  .map(
+                                    (record) => TextSearchItem.fromTerms(
+                                        record, [
+                                      record.motivoConsulta,
+                                      record.nombre,
+                                      record.apellidos
+                                    ]),
+                                  )
+                                  .toList(),
+                            )
+                                    .search(_model.textController.text)
+                                    .map((r) => r.object)
+                                    .toList(),
+                          )
+                          .onError((_, __) => _model.simpleSearchResults = [])
+                          .whenComplete(() => safeSetState(() {}));
                     },
                   ),
                   autofocus: false,
@@ -422,20 +441,6 @@ class _ListaPacientesPsicologoWidgetState
                                     Row(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
-                                        FlutterFlowIconButton(
-                                          borderRadius: 20.0,
-                                          buttonSize: 40.0,
-                                          icon: Icon(
-                                            Icons.edit,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primary,
-                                            size: 18.0,
-                                          ),
-                                          onPressed: () async {
-                                            context.pushNamed(
-                                                EditarPacienteWidget.routeName);
-                                          },
-                                        ),
                                         FlutterFlowIconButton(
                                           borderRadius: 20.0,
                                           buttonSize: 40.0,

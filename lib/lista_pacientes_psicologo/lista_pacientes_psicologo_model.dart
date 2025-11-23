@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'lista_pacientes_psicologo_widget.dart'
@@ -12,6 +13,7 @@ class ListaPacientesPsicologoModel
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  List<PacientesRecord> simpleSearchResults = [];
 
   @override
   void initState(BuildContext context) {}

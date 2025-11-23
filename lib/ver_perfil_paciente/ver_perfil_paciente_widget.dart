@@ -95,7 +95,7 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
             },
           ),
           title: Text(
-            'Perfil del paciente',
+            'Perfil de mi paciente',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
                   font: GoogleFonts.interTight(
                     fontWeight: FontWeight.bold,
@@ -868,12 +868,13 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                 ),
                                 Column(
                                   mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     FFButtonWidget(
                                       onPressed: () async {
                                         final selectedFiles = await selectFiles(
                                           storageFolderPath: 'Historiales',
+                                          allowedExtensions: ['pdf'],
                                           multiFile: false,
                                         );
                                         if (selectedFiles != null) {
@@ -982,10 +983,41 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                                             BorderRadius.circular(8.0),
                                       ),
                                     ),
+                                    if (_model.uploadedFileUrl_docHistorialClinico !=
+                                                ''
+                                        ? true
+                                        : false)
+                                      Text(
+                                        'Archivo Cargado${_model.uploadedFileUrl_docHistorialClinico}',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodySmall
+                                            .override(
+                                              font: GoogleFonts.inter(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodySmall
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodySmall
+                                                        .fontStyle,
+                                              ),
+                                              letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
+                                      ),
                                     FFButtonWidget(
                                       onPressed: () async {
                                         context.pushNamed(
-                                          ListaHistorialesWidget.routeName,
+                                          ListaHistorialesClinicosWidget
+                                              .routeName,
                                           queryParameters: {
                                             'pacienteRef': serializeParam(
                                               widget.pacienteRef,
@@ -1048,6 +1080,122 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                           ),
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).accent1,
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.all(12.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Icon(
+                                        Icons.history,
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        size: 24.0,
+                                      ),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Historial de Sesiones',
+                                            style: FlutterFlowTheme.of(context)
+                                                .titleMedium
+                                                .override(
+                                                  font: GoogleFonts.interTight(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .titleMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleMedium
+                                                          .fontStyle,
+                                                ),
+                                          ),
+                                          Text(
+                                            'Ver historial de sesiones',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodySmall
+                                                .override(
+                                                  font: GoogleFonts.inter(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodySmall
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodySmall
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryText,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodySmall
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodySmall
+                                                          .fontStyle,
+                                                ),
+                                          ),
+                                        ].divide(SizedBox(height: 4.0)),
+                                      ),
+                                    ].divide(SizedBox(width: 12.0)),
+                                  ),
+                                ),
+                                FlutterFlowIconButton(
+                                  borderRadius: 20.0,
+                                  buttonSize: 40.0,
+                                  fillColor:
+                                      FlutterFlowTheme.of(context).primary,
+                                  icon: Icon(
+                                    Icons.arrow_forward_rounded,
+                                    color: FlutterFlowTheme.of(context).info,
+                                    size: 20.0,
+                                  ),
+                                  onPressed: () async {
+                                    context.pushNamed(
+                                      HistorialSesionesWidget.routeName,
+                                      queryParameters: {
+                                        'pacienteRef': serializeParam(
+                                          widget.pacienteRef,
+                                          ParamType.DocumentReference,
+                                        ),
+                                      }.withoutNulls,
+                                    );
+                                  },
+                                ),
+                              ].divide(SizedBox(width: 12.0)),
+                            ),
+                          ),
+                        ),
+                      ),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1055,8 +1203,15 @@ class _VerPerfilPacienteWidgetState extends State<VerPerfilPacienteWidget> {
                           Expanded(
                             child: FFButtonWidget(
                               onPressed: () async {
-                                context
-                                    .pushNamed(EditarPacienteWidget.routeName);
+                                context.pushNamed(
+                                  EditarPacienteWidget.routeName,
+                                  queryParameters: {
+                                    'pacienteRef': serializeParam(
+                                      widget.pacienteRef,
+                                      ParamType.DocumentReference,
+                                    ),
+                                  }.withoutNulls,
+                                );
                               },
                               text: 'Editar',
                               icon: Icon(

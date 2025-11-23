@@ -1,9 +1,11 @@
 import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
-import 'home_paciente_widget.dart' show HomePacienteWidget;
+import 'lista_historiales_clinicos_widget.dart'
+    show ListaHistorialesClinicosWidget;
 import 'package:flutter/material.dart';
 
-class HomePacienteModel extends FlutterFlowModel<HomePacienteWidget> {
+class ListaHistorialesClinicosModel
+    extends FlutterFlowModel<ListaHistorialesClinicosWidget> {
   @override
   void initState(BuildContext context) {}
 

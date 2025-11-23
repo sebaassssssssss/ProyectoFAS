@@ -16,11 +16,6 @@ class PacientesRecord extends FirestoreRecord {
     _initializeFields();
   }
 
-  // "ExpPsicologo" field.
-  DocumentReference? _expPsicologo;
-  DocumentReference? get expPsicologo => _expPsicologo;
-  bool hasExpPsicologo() => _expPsicologo != null;
-
   // "user_ref" field.
   DocumentReference? _userRef;
   DocumentReference? get userRef => _userRef;
@@ -125,7 +120,6 @@ class PacientesRecord extends FirestoreRecord {
   bool hasHistorialClinicoPdf() => _historialClinicoPdf != null;
 
   void _initializeFields() {
-    _expPsicologo = snapshotData['ExpPsicologo'] as DocumentReference?;
     _userRef = snapshotData['user_ref'] as DocumentReference?;
     _emailInvitado = snapshotData['email_invitado'] as String?;
     _userUidLink = snapshotData['user_uid_link'] as String?;
@@ -183,7 +177,6 @@ class PacientesRecord extends FirestoreRecord {
 }
 
 Map<String, dynamic> createPacientesRecordData({
-  DocumentReference? expPsicologo,
   DocumentReference? userRef,
   String? emailInvitado,
   String? userUidLink,
@@ -206,7 +199,6 @@ Map<String, dynamic> createPacientesRecordData({
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
-      'ExpPsicologo': expPsicologo,
       'user_ref': userRef,
       'email_invitado': emailInvitado,
       'user_uid_link': userUidLink,
@@ -238,8 +230,7 @@ class PacientesRecordDocumentEquality implements Equality<PacientesRecord> {
   @override
   bool equals(PacientesRecord? e1, PacientesRecord? e2) {
     const listEquality = ListEquality();
-    return e1?.expPsicologo == e2?.expPsicologo &&
-        e1?.userRef == e2?.userRef &&
+    return e1?.userRef == e2?.userRef &&
         e1?.emailInvitado == e2?.emailInvitado &&
         e1?.userUidLink == e2?.userUidLink &&
         e1?.psicologoUid == e2?.psicologoUid &&
@@ -263,7 +254,6 @@ class PacientesRecordDocumentEquality implements Equality<PacientesRecord> {
 
   @override
   int hash(PacientesRecord? e) => const ListEquality().hash([
-        e?.expPsicologo,
         e?.userRef,
         e?.emailInvitado,
         e?.userUidLink,

@@ -6,45 +6,51 @@ import 'package:flutter/material.dart';
 class EditarPacienteModel extends FlutterFlowModel<EditarPacienteWidget> {
   ///  State fields for stateful widgets in this page.
 
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode1;
-  TextEditingController? textController1;
-  String? Function(BuildContext, String?)? textController1Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode2;
-  TextEditingController? textController2;
-  String? Function(BuildContext, String?)? textController2Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode3;
-  TextEditingController? textController3;
-  String? Function(BuildContext, String?)? textController3Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode4;
-  TextEditingController? textController4;
-  String? Function(BuildContext, String?)? textController4Validator;
-  // State field(s) for TextField widget.
-  FocusNode? textFieldFocusNode5;
-  TextEditingController? textController5;
-  String? Function(BuildContext, String?)? textController5Validator;
+  final formKey = GlobalKey<FormState>();
+  // State field(s) for motivoConsultaTextField widget.
+  FocusNode? motivoConsultaTextFieldFocusNode;
+  TextEditingController? motivoConsultaTextFieldTextController;
+  String? Function(BuildContext, String?)?
+      motivoConsultaTextFieldTextControllerValidator;
+  // State field(s) for frecuenciaSesionesTextField widget.
+  FocusNode? frecuenciaSesionesTextFieldFocusNode;
+  TextEditingController? frecuenciaSesionesTextFieldTextController;
+  String? Function(BuildContext, String?)?
+      frecuenciaSesionesTextFieldTextControllerValidator;
+  // State field(s) for medicacionActualTextField widget.
+  FocusNode? medicacionActualTextFieldFocusNode;
+  TextEditingController? medicacionActualTextFieldTextController;
+  String? Function(BuildContext, String?)?
+      medicacionActualTextFieldTextControllerValidator;
+  // State field(s) for observacionesTextField widget.
+  FocusNode? observacionesTextFieldFocusNode;
+  TextEditingController? observacionesTextFieldTextController;
+  String? Function(BuildContext, String?)?
+      observacionesTextFieldTextControllerValidator;
+  // State field(s) for telefonoTextField widget.
+  FocusNode? telefonoTextFieldFocusNode;
+  TextEditingController? telefonoTextFieldTextController;
+  String? Function(BuildContext, String?)?
+      telefonoTextFieldTextControllerValidator;
 
   @override
   void initState(BuildContext context) {}
 
   @override
   void dispose() {
-    textFieldFocusNode1?.dispose();
-    textController1?.dispose();
+    motivoConsultaTextFieldFocusNode?.dispose();
+    motivoConsultaTextFieldTextController?.dispose();
 
-    textFieldFocusNode2?.dispose();
-    textController2?.dispose();
+    frecuenciaSesionesTextFieldFocusNode?.dispose();
+    frecuenciaSesionesTextFieldTextController?.dispose();
 
-    textFieldFocusNode3?.dispose();
-    textController3?.dispose();
+    medicacionActualTextFieldFocusNode?.dispose();
+    medicacionActualTextFieldTextController?.dispose();
 
-    textFieldFocusNode4?.dispose();
-    textController4?.dispose();
+    observacionesTextFieldFocusNode?.dispose();
+    observacionesTextFieldTextController?.dispose();
 
-    textFieldFocusNode5?.dispose();
-    textController5?.dispose();
+    telefonoTextFieldFocusNode?.dispose();
+    telefonoTextFieldTextController?.dispose();
   }
 }

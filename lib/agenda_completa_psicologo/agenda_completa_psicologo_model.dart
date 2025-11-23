@@ -1,3 +1,4 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'agenda_completa_psicologo_widget.dart'
     show AgendaCompletaPsicologoWidget;
@@ -11,6 +12,7 @@ class AgendaCompletaPsicologoModel
   FocusNode? textFieldFocusNode;
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
+  List<CitasRecord> simpleSearchResults = [];
 
   @override
   void initState(BuildContext context) {}

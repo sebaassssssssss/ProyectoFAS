@@ -637,6 +637,19 @@ class _EliminarpacienteWidgetState extends State<EliminarpacienteWidget> {
                       children: [
                         FFButtonWidget(
                           onPressed: () async {
+                            _model.citasPaciente = await queryCitasRecordOnce(
+                              queryBuilder: (citasRecord) => citasRecord.where(
+                                'paciente_ref',
+                                isEqualTo: widget.pacienteRef,
+                              ),
+                            );
+                            for (int loop1Index = 0;
+                                loop1Index < _model.citasPaciente!.length;
+                                loop1Index++) {
+                              final currentLoop1Item =
+                                  _model.citasPaciente![loop1Index];
+                              await currentLoop1Item.reference.delete();
+                            }
                             await widget.pacienteRef!.delete();
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
@@ -653,6 +666,8 @@ class _EliminarpacienteWidgetState extends State<EliminarpacienteWidget> {
                               ),
                             );
                             context.safePop();
+
+                            safeSetState(() {});
                           },
                           text: 'Confirmar Eliminación',
                           options: FFButtonOptions(

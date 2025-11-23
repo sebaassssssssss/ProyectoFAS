@@ -75,13 +75,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? InicioWidget() : SplashPageWidget(),
+          appStateNotifier.loggedIn ? LoginUsuarioWidget() : SplashPageWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) =>
-              appStateNotifier.loggedIn ? InicioWidget() : SplashPageWidget(),
+          builder: (context, _) => appStateNotifier.loggedIn
+              ? LoginUsuarioWidget()
+              : SplashPageWidget(),
         ),
         FFRoute(
           name: InicioDeSesionWidget.routeName,
@@ -121,7 +122,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: EditarPacienteWidget.routeName,
           path: EditarPacienteWidget.routePath,
-          builder: (context, params) => EditarPacienteWidget(),
+          builder: (context, params) => EditarPacienteWidget(
+            pacienteRef: params.getParam(
+              'pacienteRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Pacientes'],
+            ),
+          ),
         ),
         FFRoute(
           name: LoginUsuarioWidget.routeName,
@@ -190,9 +198,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => PruebValidarAPIWidget(),
         ),
         FFRoute(
-          name: ListaHistorialesWidget.routeName,
-          path: ListaHistorialesWidget.routePath,
-          builder: (context, params) => ListaHistorialesWidget(
+          name: ListaHistorialesClinicosWidget.routeName,
+          path: ListaHistorialesClinicosWidget.routePath,
+          builder: (context, params) => ListaHistorialesClinicosWidget(
             pacienteRef: params.getParam(
               'pacienteRef',
               ParamType.DocumentReference,
@@ -205,6 +213,30 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: EliminarpacienteWidget.routeName,
           path: EliminarpacienteWidget.routePath,
           builder: (context, params) => EliminarpacienteWidget(
+            pacienteRef: params.getParam(
+              'pacienteRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Pacientes'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: VerPerfilPsicologoWidget.routeName,
+          path: VerPerfilPsicologoWidget.routePath,
+          builder: (context, params) => VerPerfilPsicologoWidget(
+            refUsuario: params.getParam(
+              'refUsuario',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['users'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: HistorialSesionesWidget.routeName,
+          path: HistorialSesionesWidget.routePath,
+          builder: (context, params) => HistorialSesionesWidget(
             pacienteRef: params.getParam(
               'pacienteRef',
               ParamType.DocumentReference,

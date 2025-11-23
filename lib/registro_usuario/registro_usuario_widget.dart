@@ -623,7 +623,7 @@ class _RegistroUsuarioWidgetState extends State<RegistroUsuarioWidget> {
                                         }
 
                                         context.goNamedAuth(
-                                            InicioWidget.routeName,
+                                            LoginUsuarioWidget.routeName,
                                             context.mounted);
                                       },
                                       text: 'Crear Cuenta',

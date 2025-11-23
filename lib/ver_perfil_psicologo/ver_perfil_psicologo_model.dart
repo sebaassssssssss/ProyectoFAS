@@ -1,9 +1,9 @@
 import '/flutter_flow/flutter_flow_util.dart';
-import '/index.dart';
-import 'lista_historiales_widget.dart' show ListaHistorialesWidget;
+import 'ver_perfil_psicologo_widget.dart' show VerPerfilPsicologoWidget;
 import 'package:flutter/material.dart';
 
-class ListaHistorialesModel extends FlutterFlowModel<ListaHistorialesWidget> {
+class VerPerfilPsicologoModel
+    extends FlutterFlowModel<VerPerfilPsicologoWidget> {
   @override
   void initState(BuildContext context) {}
 

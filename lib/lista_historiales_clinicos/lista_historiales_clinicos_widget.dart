@@ -5,8 +5,8 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'lista_historiales_model.dart';
-export 'lista_historiales_model.dart';
+import 'lista_historiales_clinicos_model.dart';
+export 'lista_historiales_clinicos_model.dart';
 
 /// Generate a page named "Document List" for the psychologist's application.
 ///
@@ -25,30 +25,32 @@ export 'lista_historiales_model.dart';
 ///
 /// The action upon tapping the card must be "Launch URL" to open the document
 /// link corresponding to the current item in the list.
-class ListaHistorialesWidget extends StatefulWidget {
-  const ListaHistorialesWidget({
+class ListaHistorialesClinicosWidget extends StatefulWidget {
+  const ListaHistorialesClinicosWidget({
     super.key,
     required this.pacienteRef,
   });
 
   final DocumentReference? pacienteRef;
 
-  static String routeName = 'ListaHistoriales';
+  static String routeName = 'listaHistorialesClinicos';
   static String routePath = '/listaHistoriales';
 
   @override
-  State<ListaHistorialesWidget> createState() => _ListaHistorialesWidgetState();
+  State<ListaHistorialesClinicosWidget> createState() =>
+      _ListaHistorialesClinicosWidgetState();
 }
 
-class _ListaHistorialesWidgetState extends State<ListaHistorialesWidget> {
-  late ListaHistorialesModel _model;
+class _ListaHistorialesClinicosWidgetState
+    extends State<ListaHistorialesClinicosWidget> {
+  late ListaHistorialesClinicosModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ListaHistorialesModel());
+    _model = createModel(context, () => ListaHistorialesClinicosModel());
 
     WidgetsBinding.instance.addPostFrameCallback((_) => safeSetState(() {}));
   }

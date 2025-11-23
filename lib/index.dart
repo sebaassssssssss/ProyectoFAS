@@ -23,7 +23,11 @@ export '/crear_cita/crear_cita_widget.dart' show CrearCitaWidget;
 export '/asignar_tarea/asignar_tarea_widget.dart' show AsignarTareaWidget;
 export '/prueb_validar_a_p_i/prueb_validar_a_p_i_widget.dart'
     show PruebValidarAPIWidget;
-export '/lista_historiales/lista_historiales_widget.dart'
-    show ListaHistorialesWidget;
+export '/lista_historiales_clinicos/lista_historiales_clinicos_widget.dart'
+    show ListaHistorialesClinicosWidget;
 export '/eliminarpaciente/eliminarpaciente_widget.dart'
     show EliminarpacienteWidget;
+export '/ver_perfil_psicologo/ver_perfil_psicologo_widget.dart'
+    show VerPerfilPsicologoWidget;
+export '/historial_sesiones/historial_sesiones_widget.dart'
+    show HistorialSesionesWidget;

@@ -293,8 +293,8 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                                     children: [
                                       Text(
                                         valueOrDefault<String>(
-                                          containerCitasRecord?.fechaHora
-                                              ?.toString(),
+                                          dateTimeFormat("d/M h:mm a",
+                                              containerCitasRecord?.fechaHora),
                                           'Fecha y Hora',
                                         ),
                                         style: FlutterFlowTheme.of(context)
@@ -434,47 +434,87 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                                       ),
                                     ].divide(SizedBox(height: 8.0)),
                                   ),
-                                  FFButtonWidget(
-                                    onPressed: () {
-                                      print('Button pressed ...');
-                                    },
-                                    text: 'Abrir en Maps',
-                                    icon: Icon(
-                                      Icons.location_on,
-                                      size: 18.0,
+                                  StreamBuilder<List<PsicologosRecord>>(
+                                    stream: queryPsicologosRecord(
+                                      singleRecord: true,
                                     ),
-                                    options: FFButtonOptions(
-                                      height: 40.0,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      iconColor: Colors.white,
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            font: GoogleFonts.interTight(
-                                              fontWeight: FontWeight.w500,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .fontStyle,
-                                            ),
-                                            color: Colors.white,
-                                            fontSize: 14.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w500,
-                                            fontStyle:
+                                    builder: (context, snapshot) {
+                                      // Customize what your widget looks like when it's loading.
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                          child: SizedBox(
+                                            width: 50.0,
+                                            height: 50.0,
+                                            child: CircularProgressIndicator(
+                                              valueColor:
+                                                  AlwaysStoppedAnimation<Color>(
                                                 FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .fontStyle,
+                                                    .primary,
+                                              ),
+                                            ),
                                           ),
-                                      elevation: 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
+                                        );
+                                      }
+                                      List<PsicologosRecord>
+                                          buttonPsicologosRecordList =
+                                          snapshot.data!;
+                                      // Return an empty Container when the item does not exist.
+                                      if (snapshot.data!.isEmpty) {
+                                        return Container();
+                                      }
+                                      final buttonPsicologosRecord =
+                                          buttonPsicologosRecordList.isNotEmpty
+                                              ? buttonPsicologosRecordList.first
+                                              : null;
+
+                                      return FFButtonWidget(
+                                        onPressed: () async {
+                                          await launchURL(
+                                              'https://maps.google.com/?q=${buttonPsicologosRecord?.direccionConsultorio}');
+                                        },
+                                        text: 'Abrir en Maps',
+                                        icon: Icon(
+                                          Icons.location_on,
+                                          size: 18.0,
+                                        ),
+                                        options: FFButtonOptions(
+                                          height: 40.0,
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16.0, 0.0, 16.0, 0.0),
+                                          iconPadding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          iconColor: Colors.white,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .titleSmall
+                                              .override(
+                                                font: GoogleFonts.interTight(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .fontStyle,
+                                                ),
+                                                color: Colors.white,
+                                                fontSize: 14.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontStyle,
+                                              ),
+                                          elevation: 0.0,
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ].divide(SizedBox(height: 16.0)),
                               ),
@@ -990,15 +1030,17 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                                         ],
                                       ),
                                       LinearPercentIndicator(
-                                        percent: 0.6,
-                                        width:
-                                            MediaQuery.sizeOf(context).width *
-                                                1.0,
+                                        percent: 0.5,
+                                        width: 120.0,
                                         lineHeight: 8.0,
                                         animation: true,
                                         animateFromLastPercent: true,
-                                        progressColor: Color(0xFFFF6B35),
-                                        backgroundColor: Color(0xFFF0F0F0),
+                                        progressColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .accent4,
                                         padding: EdgeInsets.zero,
                                       ),
                                     ].divide(SizedBox(height: 8.0)),
@@ -1068,16 +1110,17 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                                         ],
                                       ),
                                       LinearPercentIndicator(
-                                        percent: 0.8,
-                                        width:
-                                            MediaQuery.sizeOf(context).width *
-                                                1.0,
+                                        percent: 0.5,
+                                        width: 120.0,
                                         lineHeight: 8.0,
                                         animation: true,
                                         animateFromLastPercent: true,
                                         progressColor:
-                                            FlutterFlowTheme.of(context).error,
-                                        backgroundColor: Color(0xFFF0F0F0),
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .accent4,
                                         padding: EdgeInsets.zero,
                                       ),
                                     ].divide(SizedBox(height: 8.0)),
@@ -1147,17 +1190,17 @@ class _HomePacienteWidgetState extends State<HomePacienteWidget> {
                                         ],
                                       ),
                                       LinearPercentIndicator(
-                                        percent: 0.3,
-                                        width:
-                                            MediaQuery.sizeOf(context).width *
-                                                1.0,
+                                        percent: 0.5,
+                                        width: 120.0,
                                         lineHeight: 8.0,
                                         animation: true,
                                         animateFromLastPercent: true,
                                         progressColor:
                                             FlutterFlowTheme.of(context)
-                                                .success,
-                                        backgroundColor: Color(0xFFF0F0F0),
+                                                .primary,
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .accent4,
                                         padding: EdgeInsets.zero,
                                       ),
                                     ].divide(SizedBox(height: 8.0)),

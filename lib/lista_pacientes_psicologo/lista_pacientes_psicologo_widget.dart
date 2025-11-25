@@ -6,8 +6,8 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
 import 'lista_pacientes_psicologo_model.dart';
 export 'lista_pacientes_psicologo_model.dart';
@@ -41,6 +41,19 @@ class _ListaPacientesPsicologoWidgetState
     super.initState();
     _model = createModel(context, () => ListaPacientesPsicologoModel());
 
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.misPacientesBD = await queryPacientesRecordOnce(
+        queryBuilder: (pacientesRecord) => pacientesRecord.where(
+          'psicologo_uid',
+          isEqualTo: currentUserReference,
+        ),
+      );
+      _model.listaPacientesMostrada =
+          _model.misPacientesBD!.toList().cast<PacientesRecord>();
+      safeSetState(() {});
+    });
+
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
 
@@ -56,8 +69,6 @@ class _ListaPacientesPsicologoWidgetState
 
   @override
   Widget build(BuildContext context) {
-    context.watch<FFAppState>();
-
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -132,27 +143,24 @@ class _ListaPacientesPsicologoWidgetState
                     '_model.textController',
                     Duration(milliseconds: 2000),
                     () async {
-                      await queryPacientesRecordOnce()
-                          .then(
-                            (records) => _model.simpleSearchResults =
-                                TextSearch(
-                              records
-                                  .map(
-                                    (record) => TextSearchItem.fromTerms(
-                                        record, [
-                                      record.motivoConsulta,
-                                      record.nombre,
-                                      record.apellidos
-                                    ]),
-                                  )
-                                  .toList(),
-                            )
-                                    .search(_model.textController.text)
-                                    .map((r) => r.object)
-                                    .toList(),
-                          )
-                          .onError((_, __) => _model.simpleSearchResults = [])
-                          .whenComplete(() => safeSetState(() {}));
+                      safeSetState(() {
+                        _model.simpleSearchResults = TextSearch(
+                          _model.listaCompletaPacientes
+                              .map(
+                                (record) => TextSearchItem.fromTerms(record,
+                                    [record.nombre, record.apellidos]),
+                              )
+                              .toList(),
+                        )
+                            .search(_model.textController.text)
+                            .map((r) => r.object)
+                            .toList();
+                        ;
+                      });
+                      _model.listaPacientesMostrada = _model.simpleSearchResults
+                          .toList()
+                          .cast<PacientesRecord>();
+                      safeSetState(() {});
                     },
                   ),
                   autofocus: false,
@@ -234,50 +242,19 @@ class _ListaPacientesPsicologoWidgetState
               ),
               Padding(
                 padding: EdgeInsetsDirectional.fromSTEB(16.0, 16.0, 16.0, 0.0),
-                child: StreamBuilder<List<PacientesRecord>>(
-                  stream: queryPacientesRecord(
-                    queryBuilder: (pacientesRecord) => pacientesRecord
-                        .where(
-                          'psicologo_uid',
-                          isEqualTo: currentUserReference,
-                        )
-                        .where(
-                          'nombre',
-                          isGreaterThanOrEqualTo:
-                              FFAppState().searchQueryPacientes,
-                        )
-                        .where(
-                          'nombre',
-                          isLessThanOrEqualTo:
-                              '${FFAppState().searchQueryPacientes}\\uf8ff',
-                        ),
-                  ),
-                  builder: (context, snapshot) {
-                    // Customize what your widget looks like when it's loading.
-                    if (!snapshot.hasData) {
-                      return Center(
-                        child: SizedBox(
-                          width: 50.0,
-                          height: 50.0,
-                          child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              FlutterFlowTheme.of(context).primary,
-                            ),
-                          ),
-                        ),
-                      );
-                    }
-                    List<PacientesRecord> listViewPacientesRecordList =
-                        snapshot.data!;
+                child: Builder(
+                  builder: (context) {
+                    final pacientesFiltrados =
+                        _model.listaPacientesMostrada.toList();
 
                     return ListView.builder(
                       padding: EdgeInsets.zero,
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
-                      itemCount: listViewPacientesRecordList.length,
-                      itemBuilder: (context, listViewIndex) {
-                        final listViewPacientesRecord =
-                            listViewPacientesRecordList[listViewIndex];
+                      itemCount: pacientesFiltrados.length,
+                      itemBuilder: (context, pacientesFiltradosIndex) {
+                        final pacientesFiltradosItem =
+                            pacientesFiltrados[pacientesFiltradosIndex];
                         return Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 1.0),
@@ -291,7 +268,7 @@ class _ListaPacientesPsicologoWidgetState
                                 VerPerfilPacienteWidget.routeName,
                                 queryParameters: {
                                   'pacienteRef': serializeParam(
-                                    listViewPacientesRecord.reference,
+                                    pacientesFiltradosItem.reference,
                                     ParamType.DocumentReference,
                                   ),
                                 }.withoutNulls,
@@ -326,7 +303,7 @@ class _ListaPacientesPsicologoWidgetState
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
                                               Text(
-                                                listViewPacientesRecord.nombre,
+                                                pacientesFiltradosItem.nombre,
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .titleSmall
@@ -359,7 +336,7 @@ class _ListaPacientesPsicologoWidgetState
                                                         ),
                                               ),
                                               Text(
-                                                listViewPacientesRecord
+                                                pacientesFiltradosItem
                                                     .apellidos,
                                                 style:
                                                     FlutterFlowTheme.of(context)
@@ -399,7 +376,7 @@ class _ListaPacientesPsicologoWidgetState
                                                 EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 4.0, 0.0, 0.0),
                                             child: Text(
-                                              listViewPacientesRecord
+                                              pacientesFiltradosItem
                                                   .motivoConsulta,
                                               style:
                                                   FlutterFlowTheme.of(context)
@@ -455,7 +432,7 @@ class _ListaPacientesPsicologoWidgetState
                                               EliminarpacienteWidget.routeName,
                                               queryParameters: {
                                                 'pacienteRef': serializeParam(
-                                                  listViewPacientesRecord
+                                                  pacientesFiltradosItem
                                                       .reference,
                                                   ParamType.DocumentReference,
                                                 ),

@@ -244,6 +244,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['Pacientes'],
             ),
           ),
+        ),
+        FFRoute(
+          name: RegistrarSesionWidget.routeName,
+          path: RegistrarSesionWidget.routePath,
+          builder: (context, params) => RegistrarSesionWidget(
+            pacienteRef: params.getParam(
+              'pacienteRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Pacientes'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );

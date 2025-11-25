@@ -31,3 +31,5 @@ export '/ver_perfil_psicologo/ver_perfil_psicologo_widget.dart'
     show VerPerfilPsicologoWidget;
 export '/historial_sesiones/historial_sesiones_widget.dart'
     show HistorialSesionesWidget;
+export '/registrar_sesion/registrar_sesion_widget.dart'
+    show RegistrarSesionWidget;

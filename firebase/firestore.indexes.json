@@ -15,20 +15,6 @@
       ]
     },
     {
-      "collectionGroup": "Pacientes",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "psicologo_uid",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "nombre",
-          "order": "ASCENDING"
-        }
-      ]
-    },
-    {
       "collectionGroup": "Citas",
       "queryScope": "COLLECTION",
       "fields": [

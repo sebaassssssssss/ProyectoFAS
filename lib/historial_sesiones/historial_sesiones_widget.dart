@@ -77,7 +77,7 @@ class _HistorialSesionesWidgetState extends State<HistorialSesionesWidget> {
       },
       child: Scaffold(
         key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
+        backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
         appBar: AppBar(
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           automaticallyImplyLeading: false,
@@ -330,6 +330,7 @@ class _HistorialSesionesWidgetState extends State<HistorialSesionesWidget> {
                                                                   .titleMedium
                                                                   .fontStyle,
                                                         ),
+                                                    overflow: TextOverflow.clip,
                                                   ),
                                                   Container(
                                                     height: 24.0,
@@ -491,11 +492,7 @@ class _HistorialSesionesWidgetState extends State<HistorialSesionesWidget> {
                                                         size: 16.0,
                                                       ),
                                                       Text(
-                                                        valueOrDefault<String>(
-                                                          listViewSesionesRecord
-                                                              .psicologoRef?.id,
-                                                          'nombrePsicologo',
-                                                        ),
+                                                        '',
                                                         style:
                                                             FlutterFlowTheme.of(
                                                                     context)

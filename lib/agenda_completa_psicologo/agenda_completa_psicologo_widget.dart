@@ -170,27 +170,23 @@ class _AgendaCompletaPsicologoWidgetState
                         '_model.textController',
                         Duration(milliseconds: 2000),
                         () async {
-                          await queryCitasRecordOnce()
-                              .then(
-                                (records) => _model.simpleSearchResults =
-                                    TextSearch(
-                                  records
-                                      .map(
-                                        (record) => TextSearchItem.fromTerms(
-                                            record, [
-                                          record.nombrePaciente,
-                                          record.apellidosPaciente
-                                        ]),
-                                      )
-                                      .toList(),
-                                )
-                                        .search(_model.textController.text)
-                                        .map((r) => r.object)
-                                        .toList(),
-                              )
-                              .onError(
-                                  (_, __) => _model.simpleSearchResults = [])
-                              .whenComplete(() => safeSetState(() {}));
+                          safeSetState(() {
+                            _model.simpleSearchResults = TextSearch(
+                              agendaCompletaPsicologoCitasRecordList
+                                  .map(
+                                    (record) => TextSearchItem.fromTerms(
+                                        record, [
+                                      record.nombrePaciente,
+                                      record.apellidosPaciente
+                                    ]),
+                                  )
+                                  .toList(),
+                            )
+                                .search(_model.textController.text)
+                                .map((r) => r.object)
+                                .toList();
+                            ;
+                          });
                         },
                       ),
                       autofocus: false,
@@ -381,50 +377,19 @@ class _AgendaCompletaPsicologoWidgetState
                     child: Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(
                           16.0, 16.0, 16.0, 16.0),
-                      child: StreamBuilder<List<CitasRecord>>(
-                        stream: queryCitasRecord(
-                          queryBuilder: (citasRecord) => citasRecord
-                              .where(
-                                'psicologo_uid',
-                                isEqualTo: currentUserReference,
-                              )
-                              .where(
-                                'fechaHora',
-                                isGreaterThanOrEqualTo:
-                                    FFAppState().agendaStartDate,
-                              )
-                              .where(
-                                'fechaHora',
-                                isLessThanOrEqualTo: FFAppState().agendaEndDate,
-                              )
-                              .orderBy('fechaHora'),
-                        ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    FlutterFlowTheme.of(context).primary,
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                          List<CitasRecord> listViewCitasRecordList =
-                              snapshot.data!;
+                      child: Builder(
+                        builder: (context) {
+                          final citasFiltradas =
+                              _model.simpleSearchResults.toList();
 
                           return ListView.builder(
                             padding: EdgeInsets.zero,
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
-                            itemCount: listViewCitasRecordList.length,
-                            itemBuilder: (context, listViewIndex) {
-                              final listViewCitasRecord =
-                                  listViewCitasRecordList[listViewIndex];
+                            itemCount: citasFiltradas.length,
+                            itemBuilder: (context, citasFiltradasIndex) {
+                              final citasFiltradasItem =
+                                  citasFiltradas[citasFiltradasIndex];
                               return Padding(
                                 padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 12.0),
@@ -462,13 +427,13 @@ class _AgendaCompletaPsicologoWidgetState
                                               height: 60.0,
                                               decoration: BoxDecoration(
                                                 color: () {
-                                                  if (listViewCitasRecord
+                                                  if (citasFiltradasItem
                                                           .estado ==
                                                       'Completada') {
                                                     return FlutterFlowTheme.of(
                                                             context)
                                                         .success;
-                                                  } else if (listViewCitasRecord
+                                                  } else if (citasFiltradasItem
                                                           .estado ==
                                                       'Cancelada') {
                                                     return FlutterFlowTheme.of(
@@ -503,7 +468,7 @@ class _AgendaCompletaPsicologoWidgetState
                                                           MainAxisSize.max,
                                                       children: [
                                                         Text(
-                                                          listViewCitasRecord
+                                                          citasFiltradasItem
                                                               .nombrePaciente,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
@@ -533,7 +498,7 @@ class _AgendaCompletaPsicologoWidgetState
                                                               ),
                                                         ),
                                                         Text(
-                                                          listViewCitasRecord
+                                                          citasFiltradasItem
                                                               .apellidosPaciente,
                                                           style: FlutterFlowTheme
                                                                   .of(context)
@@ -582,18 +547,25 @@ class _AgendaCompletaPsicologoWidgetState
                                                                       2.0,
                                                                       8.0,
                                                                       2.0),
-                                                          child: Container(
+                                                          child:
+                                                              AnimatedContainer(
+                                                            duration: Duration(
+                                                                milliseconds:
+                                                                    100),
+                                                            curve:
+                                                                Curves.linear,
+                                                            width: 100.0,
                                                             height: 29.8,
                                                             decoration:
                                                                 BoxDecoration(
                                                               color: () {
-                                                                if (listViewCitasRecord
+                                                                if (citasFiltradasItem
                                                                         .estado ==
                                                                     'Completada') {
                                                                   return FlutterFlowTheme.of(
                                                                           context)
                                                                       .success;
-                                                                } else if (listViewCitasRecord
+                                                                } else if (citasFiltradasItem
                                                                         .estado ==
                                                                     'Cancelada') {
                                                                   return FlutterFlowTheme.of(
@@ -615,8 +587,11 @@ class _AgendaCompletaPsicologoWidgetState
                                                                   EdgeInsets
                                                                       .all(8.0),
                                                               child: Text(
-                                                                listViewCitasRecord
+                                                                citasFiltradasItem
                                                                     .estado,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .center,
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodySmall
@@ -631,11 +606,11 @@ class _AgendaCompletaPsicologoWidgetState
                                                                       ),
                                                                       color:
                                                                           () {
-                                                                        if (listViewCitasRecord.estado ==
+                                                                        if (citasFiltradasItem.estado ==
                                                                             'Completada') {
                                                                           return FlutterFlowTheme.of(context)
                                                                               .primaryBackground;
-                                                                        } else if (listViewCitasRecord.estado ==
+                                                                        } else if (citasFiltradasItem.estado ==
                                                                             'Cancelada') {
                                                                           return FlutterFlowTheme.of(context)
                                                                               .primaryBackground;
@@ -675,7 +650,7 @@ class _AgendaCompletaPsicologoWidgetState
                                                                   Colors
                                                                       .transparent,
                                                               onTap: () async {
-                                                                await listViewCitasRecord
+                                                                await citasFiltradasItem
                                                                     .reference
                                                                     .update(
                                                                         createCitasRecordData(
@@ -724,7 +699,7 @@ class _AgendaCompletaPsicologoWidgetState
                                                                   Colors
                                                                       .transparent,
                                                               onTap: () async {
-                                                                await listViewCitasRecord
+                                                                await citasFiltradasItem
                                                                     .reference
                                                                     .update(
                                                                         createCitasRecordData(
@@ -762,6 +737,55 @@ class _AgendaCompletaPsicologoWidgetState
                                                                 size: 24.0,
                                                               ),
                                                             ),
+                                                            InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              onTap: () async {
+                                                                await citasFiltradasItem
+                                                                    .reference
+                                                                    .update(
+                                                                        createCitasRecordData(
+                                                                  estado:
+                                                                      'Programada',
+                                                                ));
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(
+                                                                  SnackBar(
+                                                                    content:
+                                                                        Text(
+                                                                      'Cita marcada como programada.',
+                                                                      style:
+                                                                          TextStyle(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryText,
+                                                                      ),
+                                                                    ),
+                                                                    duration: Duration(
+                                                                        milliseconds:
+                                                                            4000),
+                                                                    backgroundColor:
+                                                                        FlutterFlowTheme.of(context)
+                                                                            .secondary,
+                                                                  ),
+                                                                );
+                                                              },
+                                                              child: Icon(
+                                                                Icons
+                                                                    .pending_actions_outlined,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                                size: 24.0,
+                                                              ),
+                                                            ),
                                                           ].divide(SizedBox(
                                                               width: 10.0)),
                                                         ),
@@ -784,10 +808,11 @@ class _AgendaCompletaPsicologoWidgetState
                                                     ),
                                                     Text(
                                                       valueOrDefault<String>(
-                                                        listViewCitasRecord
-                                                            .fechaHora
-                                                            ?.toString(),
-                                                        '10:00',
+                                                        dateTimeFormat(
+                                                            "d/M h:mm a",
+                                                            citasFiltradasItem
+                                                                .fechaHora),
+                                                        'Hora Cita',
                                                       ),
                                                       style: FlutterFlowTheme
                                                               .of(context)
